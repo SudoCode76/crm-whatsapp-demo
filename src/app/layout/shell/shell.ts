@@ -41,17 +41,36 @@ export class Shell implements OnDestroy {
   pageTitle = computed(() => 'Resumen General');
 
   navItems = computed(() => [
-    { label: 'Inicio', icon: 'dashboard', route: '/reports/dashboard', badge: 0 },
+    { id: 'nav-inicio', label: 'Inicio', icon: 'dashboard', route: '/inicio', badge: 0 },
     {
+      id: 'nav-bandeja',
       label: 'Bandeja WhatsApp',
       icon: 'forum',
       route: '/inbox',
       badge: this.inbox.totalNoLeidos(),
     },
-    { label: 'Clientes', icon: 'group', route: '/clients', badge: 0 },
-    { label: 'Pagos y QRs', icon: 'account_balance_wallet', route: '/payments', badge: 0 },
-    { label: 'Reportes', icon: 'bar_chart', route: '/reports/dashboard', badge: 0 },
-    { label: 'Configuración', icon: 'settings', route: '/admin/company', badge: 0 },
+    { id: 'nav-clientes', label: 'Clientes', icon: 'group', route: '/clients', badge: 0 },
+    {
+      id: 'nav-pagos',
+      label: 'Pagos y QRs',
+      icon: 'account_balance_wallet',
+      route: '/payments',
+      badge: 0,
+    },
+    {
+      id: 'nav-reportes',
+      label: 'Reportes',
+      icon: 'bar_chart',
+      route: '/reports/dashboard',
+      badge: 0,
+    },
+    {
+      id: 'nav-config',
+      label: 'Configuración',
+      icon: 'settings',
+      route: '/admin/company',
+      badge: 0,
+    },
   ]);
 
   logout() {

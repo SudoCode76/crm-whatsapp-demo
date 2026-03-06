@@ -29,6 +29,10 @@ export const routes: Routes = [
     loadComponent: () => import('./layout/shell/shell').then((m) => m.Shell),
     canActivate: [authGuard],
     children: [
+      {
+        path: 'inicio',
+        loadComponent: () => import('./features/home/home').then((m) => m.Home),
+      },
       // Inbox
       {
         path: 'inbox',
@@ -93,6 +97,12 @@ export const routes: Routes = [
         path: 'reports/dashboard',
         loadComponent: () =>
           import('./features/reports/dashboard/dashboard').then((m) => m.ReportsDashboard),
+      },
+      // Home (new Inicio route)
+      {
+        path: '',
+        pathMatch: 'full',
+        loadComponent: () => import('./features/home/home').then((m) => m.Home),
       },
       {
         path: 'reports/paid-vs-unpaid',

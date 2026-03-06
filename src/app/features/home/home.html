@@ -1,0 +1,137 @@
+<!-- Converted HTML template into Angular standalone feature page -->
+<div class="home-root min-h-full flex flex-col">
+  <div class="bg-orbs fixed inset-0 z-0" aria-hidden="true"></div>
+  <div class="container mx-auto px-6 py-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div class="md:col-span-1">
+        <!-- sidebar is provided by shell; leave placeholder for SSR layout padding -->
+      </div>
+      <div class="md:col-span-3">
+        <!-- Top header + content will be rendered by the shell; this component only
+             provides the home page content region (cards, charts, lists) so the
+             shell layout remains responsible for sidebar/topbar. -->
+        <div class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-card p-5 rounded-2xl">
+              <div class="flex items-start justify-between mb-3">
+                <div
+                  class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20"
+                >
+                  <span class="material-symbols-outlined text-blue-600">payments</span>
+                </div>
+                <span class="badge-up">12%</span>
+              </div>
+              <h3 class="text-slate-500 text-sm font-medium mb-1">Cobros del día</h3>
+              <p class="text-2xl font-bold text-slate-800">$14,520.00</p>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+              <div class="flex items-start justify-between mb-3">
+                <div
+                  class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20"
+                >
+                  <span class="material-symbols-outlined text-emerald-600">qr_code_2</span>
+                </div>
+                <span class="badge-up">5%</span>
+              </div>
+              <h3 class="text-slate-500 text-sm font-medium mb-1">QRs Generados</h3>
+              <p class="text-2xl font-bold text-slate-800">128</p>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+              <div class="flex items-start justify-between mb-3">
+                <div
+                  class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center border border-purple-500/20"
+                >
+                  <span class="material-symbols-outlined text-purple-600">forum</span>
+                </div>
+                <span class="badge-neutral">0%</span>
+              </div>
+              <h3 class="text-slate-500 text-sm font-medium mb-1">Conversaciones</h3>
+              <p class="text-2xl font-bold text-slate-800">1,402</p>
+            </div>
+            <div class="glass-card p-5 rounded-2xl">
+              <div class="flex items-start justify-between mb-3">
+                <div
+                  class="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center border border-red-500/20"
+                >
+                  <span class="material-symbols-outlined text-red-600">warning</span>
+                </div>
+                <span class="badge-down">2%</span>
+              </div>
+              <h3 class="text-slate-500 text-sm font-medium mb-1">Deudas Pendientes</h3>
+              <p class="text-2xl font-bold text-slate-800">$45,200.00</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col lg:flex-row gap-6">
+            <div class="flex-1 glass-panel p-6 rounded-2xl">
+              <h3 class="text-slate-800 font-semibold text-lg mb-4">Cobros por día</h3>
+              <div class="h-48 relative">
+                <svg
+                  class="w-full h-full text-blue-500/20 fill-current"
+                  preserveAspectRatio="none"
+                  viewBox="0 0 100 50"
+                >
+                  <path
+                    d="M0,50 L0,30 C10,35 20,20 30,25 C40,30 50,10 60,15 C70,20 80,5 90,10 C95,12 100,5 100,5 L100,50 Z"
+                  ></path>
+                  <path
+                    d="M0,30 C10,35 20,20 30,25 C40,30 50,10 60,15 C70,20 80,5 90,10 C95,12 100,5 100,5"
+                    fill="none"
+                    stroke="#0a85ff"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="0.8"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div class="w-full lg:w-2/5 glass-panel p-6 rounded-2xl">
+              <h3 class="text-slate-800 font-semibold text-lg mb-4">QRs Pendientes</h3>
+              <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 glass-item rounded-xl">
+                  <div class="flex items-center gap-3">
+                    <div
+                      class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center border border-orange-200"
+                    >
+                      <span class="material-symbols-outlined text-orange-500">qr_code</span>
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-slate-800">Juan Pérez</p>
+                      <p class="text-xs text-slate-500">Expira en 2h</p>
+                    </div>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-sm font-bold text-slate-800">$1,200.00</p>
+                    <button
+                      class="text-[10px] font-semibold text-white bg-slate-800 px-2 py-0.5 rounded-full mt-1"
+                    >
+                      Reenviar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+              Actividad Reciente del Bot
+            </h3>
+            <div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+              <div class="flex-shrink-0 flex items-center gap-2 glass-pill rounded-full px-4 py-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="material-symbols-outlined text-[16px] text-emerald-600"
+                  >check_circle</span
+                >
+                <p class="text-sm text-slate-700 font-medium">
+                  Pago confirmado: <span class="font-bold">Ana L.</span>
+                </p>
+                <span class="text-xs text-slate-500 ml-2">Hace 2m</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

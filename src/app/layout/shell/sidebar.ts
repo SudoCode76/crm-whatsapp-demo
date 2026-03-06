@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, input, output } from '@angular/core
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 export interface NavItem {
+  id: string;
   label: string;
   icon: string;
   route: string;
