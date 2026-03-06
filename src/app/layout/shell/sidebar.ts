@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, output, effect, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 export interface NavItem {
@@ -18,60 +18,24 @@ export interface NavItem {
 export class Sidebar {
   items = input.required<NavItem[]>();
   user = input.required<any>();
-  logout = output<void>();
-  /** whether the sidebar is collapsed (shows icons only) */
-  collapsed = input<boolean>();
-  /** mobile overlay open */
-  mobileOpen = input<boolean>();
 
-  /** emit when the internal toggle button is clicked */
-  toggle = output<void>();
-  /** emit when mobile overlay requests close */
+  /** True when sidebar shows icons only (no labels). Parent owns and passes the boolean value. */
+  collapsed = input(false);
+  /** True when the mobile overlay is visible. */
+  mobileOpen = input(false);
+
+  /** Emits the desired next collapsed state when the user clicks the internal toggle. */
+  toggle = output<boolean>();
+  /** Emits when the mobile overlay close button is clicked. */
   closeMobile = output<void>();
+  /** Emits when the user clicks the logout button. */
+  logout = output<void>();
 
-  // local UI helpers for template
-  collapseClass = signal('');
-
-  // local copy to help templates that expect a signal function
-  itemsSignal = signal<NavItem[]>([]);
-
-  constructor() {
-    // reflect input into a local signal (keeps template expressions simple)
-    // when the input changes (parent provides a signal) this effect will update
-    // the local signal accordingly.
-    effect(() => {
-      this.itemsSignal.set(this.items() ?? []);
-    });
-    // update helper class when collapsed changes
-    effect(() => {
-      this.collapseClass.set(this.collapsed() ? 'collapsed' : 'expanded');
-    });
+  onToggle(): void {
+    this.toggle.emit(!this.collapsed());
   }
 
-  onLogout() {
+  onLogout(): void {
     this.logout.emit();
-  }
-
-  // invoked by the template when user clicks the collapse button
-  onToggle() {
-    // debug log so developer can see click reached this handler
-    // eslint-disable-next-line no-console
-    console.log('Sidebar: onToggle click');
-
-    try {
-      const c = this.collapsed as any;
-      if (typeof c === 'function' && typeof c.set === 'function') {
-        try {
-          const curr = c();
-          c.set(!curr);
-        } catch (e) {
-          // ignore
-        }
-      }
-    } catch (e) {
-      // ignore
-    }
-
-    this.toggle.emit();
   }
 }

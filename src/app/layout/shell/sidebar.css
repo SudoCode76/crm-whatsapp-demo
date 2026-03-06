@@ -17,14 +17,5 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  /* need fill for the icon */
   font-variation-settings: 'FILL' 1;
-}
-
-/* small helper: when collapsed reduce label opacity via attribute selector */
-app-sidebar[data-collapsed='1'] .truncate {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  overflow: hidden;
 }

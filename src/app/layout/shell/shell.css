@@ -48,9 +48,37 @@
   flex: 1;
 }
 
-/* Sidebar wrapper sizes and responsive overlay handling */
+/* Sidebar wrapper — flex-shrink:0 keeps it from collapsing in the flex row.
+   The <aside> inside drives the actual width; the wrapper follows it via
+   the content sizing. The transition here mirrors the aside's own transition
+   so the main content area also slides smoothly. */
 .sidebar-wrapper {
-  transition: width 250ms ease-in-out;
+  flex-shrink: 0;
+  transition: width 300ms ease-in-out;
+  overflow: visible; /* allow the floating handle inside <aside> to be visible */
+}
+
+/* small always-visible handle to toggle the sidebar */
+.sidebar-handle {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  pointer-events: auto;
+}
+.sidebar-handle .material-symbols-outlined {
+  font-size: 18px;
+  color: #0b72e6;
 }
 
 /* Mobile overlay behavior — the actual sidebar component will use the mobileOpen input
