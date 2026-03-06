@@ -1,0 +1,49 @@
+.shell-layout {
+  display: flex;
+  height: 100dvh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Main column (header + content) ─────────────────────────────────────── */
+.shell-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+  min-width: 0; /* prevent flex child from overflowing */
+}
+
+/* ── Topbar ──────────────────────────────────────────────────────────────── */
+.topbar {
+  height: 56px;
+  flex-shrink: 0;
+  background: rgb(255 255 255 / 12%);
+  backdrop-filter: blur(48px);
+  -webkit-backdrop-filter: blur(48px);
+  border-bottom: 1px solid rgb(255 255 255 / 40%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  position: relative;
+  box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.02);
+}
+
+/* ── Scrollable page area ────────────────────────────────────────────────── */
+.page-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Hide dashboard's own scroll wrapper since page-content handles it */
+.page-content > * {
+  flex: 1;
+}

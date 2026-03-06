@@ -1,0 +1,22 @@
+/* Active nav item — overrides Tailwind hover/base via routerLinkActive */
+.nav-item--active {
+  background: rgb(255 255 255 / 30%) !important;
+  color: #0a85ff !important;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-color: rgb(255 255 255 / 50%) !important;
+}
+
+.nav-item--active .nav-icon {
+  color: #0a85ff !important;
+}
+
+/* Brand icon gradient */
+.brand-icon {
+  background: linear-gradient(135deg, #0a84ff, #30d158);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* need fill for the icon */
+  font-variation-settings: 'FILL' 1;
+}

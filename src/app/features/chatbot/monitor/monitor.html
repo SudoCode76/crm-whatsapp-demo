@@ -1,0 +1,22 @@
+<div class="page">
+  <header class="page-header">
+    <h1 class="page-title">Monitor del Bot</h1>
+    <span class="badge-count">{{ totalBot() }} conversaciones activas</span>
+  </header>
+  <div class="conv-grid">
+    @for (conv of convBot(); track conv.id) {
+      <div class="conv-card glass">
+        <div class="conv-card-header">
+          <span class="avatar">{{ conv.clienteNombre[0] }}</span>
+          <div>
+            <p class="name">{{ conv.clienteNombre }}</p>
+            <p class="phone">{{ conv.clienteTelefono }}</p>
+          </div>
+        </div>
+        <p class="last-msg">{{ conv.ultimoMensaje }}</p>
+      </div>
+    } @empty {
+      <p class="empty">El bot no tiene conversaciones activas ahora.</p>
+    }
+  </div>
+</div>

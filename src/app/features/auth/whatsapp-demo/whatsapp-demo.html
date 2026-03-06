@@ -1,0 +1,34 @@
+<div class="wa-shell">
+  <!-- Header -->
+  <header class="wa-header">
+    <button class="wa-back" (click)="volver()" aria-label="Volver">←</button>
+    <span class="wa-avatar">AG</span>
+    <div class="wa-contact">
+      <span class="wa-contact-name">Empresa GT Demo</span>
+      <span class="wa-contact-status">en línea</span>
+    </div>
+  </header>
+
+  <!-- Chat body -->
+  <div class="wa-body">
+    @for (msg of conversacion.mensajes; track msg.id) {
+      <div class="wa-bubble" [class.wa-bubble--out]="msg.origen === 'cliente'">
+        <p class="wa-text">{{ msg.texto }}</p>
+        <span class="wa-time">{{ msg.timestamp | date: 'HH:mm' }}</span>
+      </div>
+    }
+  </div>
+
+  <!-- Input -->
+  <footer class="wa-footer">
+    <input
+      class="wa-input"
+      type="text"
+      placeholder="Escribe un mensaje…"
+      [value]="mensajeNuevo()"
+      (input)="onInput($event)"
+      (keydown.enter)="enviar()"
+    />
+    <button class="wa-send" (click)="enviar()" aria-label="Enviar">➤</button>
+  </footer>
+</div>

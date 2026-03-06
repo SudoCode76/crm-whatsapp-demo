@@ -1,0 +1,12 @@
+/* Dashboard styles — layout uses Tailwind utilities directly in the template.
+   Only component-specific overrides that cannot be expressed with Tailwind go here. */
+
+/* SVG chart area height */
+.chart-area {
+  position: relative;
+  height: 220px;
+}
+.chart-svg {
+  width: 100%;
+  height: 100%;
+}

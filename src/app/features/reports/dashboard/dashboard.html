@@ -1,0 +1,233 @@
+<!-- Dashboard content — scroll managed by shell's .page-content -->
+<div class="p-6 flex flex-col gap-6 h-full overflow-y-auto">
+  <div class="grid grid-cols-4 gap-4 shrink-0">
+    <div
+      class="bg-white/[0.25] backdrop-blur-[24px] rounded-2xl border border-white/50 p-5 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative overflow-hidden"
+    >
+      <div
+        class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent"
+      ></div>
+      <div class="flex items-start justify-between mb-3">
+        <div
+          class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20"
+        >
+          <span class="material-symbols-outlined text-blue-600">payments</span>
+        </div>
+        <span
+          class="flex items-center text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100"
+        >
+          <span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12%
+        </span>
+      </div>
+      <h3 class="text-slate-500 text-sm font-medium mb-1">Cobros del día</h3>
+      <p class="text-2xl font-bold text-slate-800">{{ totalDia() | currency: 'USD' }}</p>
+    </div>
+
+    <div
+      class="bg-white/[0.25] backdrop-blur-[24px] rounded-2xl border border-white/50 p-5 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative overflow-hidden"
+    >
+      <div
+        class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent"
+      ></div>
+      <div class="flex items-start justify-between mb-3">
+        <div
+          class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20"
+        >
+          <span class="material-symbols-outlined text-emerald-600">qr_code_2</span>
+        </div>
+        <span
+          class="flex items-center text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100"
+        >
+          <span class="material-symbols-outlined text-[14px]">arrow_upward</span> 5%
+        </span>
+      </div>
+      <h3 class="text-slate-500 text-sm font-medium mb-1">QRs Generados</h3>
+      <p class="text-2xl font-bold text-slate-800">128</p>
+    </div>
+
+    <div
+      class="bg-white/[0.25] backdrop-blur-[24px] rounded-2xl border border-white/50 p-5 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative overflow-hidden"
+    >
+      <div
+        class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent"
+      ></div>
+      <div class="flex items-start justify-between mb-3">
+        <div
+          class="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center border border-purple-500/20"
+        >
+          <span class="material-symbols-outlined text-purple-600">forum</span>
+        </div>
+        <span
+          class="flex items-center text-xs font-semibold text-slate-500 bg-white/50 px-2 py-0.5 rounded-full border border-white/60"
+        >
+          <span class="material-symbols-outlined text-[14px]">remove</span> 0%
+        </span>
+      </div>
+      <h3 class="text-slate-500 text-sm font-medium mb-1">Conversaciones</h3>
+      <p class="text-2xl font-bold text-slate-800">1,402</p>
+    </div>
+
+    <div
+      class="bg-white/[0.25] backdrop-blur-[24px] rounded-2xl border border-white/50 p-5 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative overflow-hidden"
+    >
+      <div
+        class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent"
+      ></div>
+      <div class="flex items-start justify-between mb-3">
+        <div
+          class="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center border border-red-500/20"
+        >
+          <span class="material-symbols-outlined text-red-600">warning</span>
+        </div>
+        <span
+          class="flex items-center text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full border border-red-100"
+        >
+          <span class="material-symbols-outlined text-[14px]">arrow_downward</span> 2%
+        </span>
+      </div>
+      <h3 class="text-slate-500 text-sm font-medium mb-1">Deudas Pendientes</h3>
+      <p class="text-2xl font-bold text-slate-800">{{ totalExpirados() | currency: 'USD' }}</p>
+    </div>
+  </div>
+
+  <div class="flex gap-6 min-h-[360px]">
+    <div
+      class="w-3/5 bg-white/[0.20] backdrop-blur-[32px] rounded-2xl border border-white/50 p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative flex flex-col"
+    >
+      <div
+        class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent"
+      ></div>
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-slate-800 font-semibold text-lg">Cobros por día</h3>
+        <div
+          class="bg-white/40 backdrop-blur-md rounded-lg p-1 border border-white/60 flex text-xs font-medium text-slate-600"
+        >
+          <button class="px-3 py-1 bg-white shadow-sm rounded-md text-slate-800">7D</button>
+          <button class="px-3 py-1 hover:text-slate-800">1M</button>
+          <button class="px-3 py-1 hover:text-slate-800">3M</button>
+        </div>
+      </div>
+      <div class="flex-1 relative w-full flex items-end justify-between px-2 pb-6 pt-10">
+        <div class="absolute inset-x-0 bottom-6 top-10 flex flex-col justify-between">
+          <div class="border-b border-white/30 w-full h-0"></div>
+          <div class="border-b border-white/30 w-full h-0"></div>
+          <div class="border-b border-white/30 w-full h-0"></div>
+          <div class="border-b border-slate-300/50 w-full h-0"></div>
+        </div>
+        <div class="w-full h-full absolute inset-0 z-10 bottom-6 flex items-end">
+          <svg
+            class="w-full h-full text-blue-500/20 fill-current"
+            preserveAspectRatio="none"
+            viewBox="0 0 100 50"
+          >
+            <path [attr.d]="sparkArea()"></path>
+            <path
+              [attr.d]="sparkLine()"
+              fill="none"
+              stroke="#0a85ff"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="0.8"
+            ></path>
+          </svg>
+        </div>
+        <div
+          class="relative z-20 flex w-full justify-between px-[5%] text-[10px] text-slate-500 font-medium translate-y-8"
+        >
+          <span>Lun</span>
+          <span>Mar</span>
+          <span>Mié</span>
+          <span>Jue</span>
+          <span>Vie</span>
+          <span>Sáb</span>
+          <span>Dom</span>
+        </div>
+      </div>
+    </div>
+    <div
+      class="w-2/5 bg-white/[0.20] backdrop-blur-[32px] rounded-2xl border border-white/50 p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative flex flex-col"
+    >
+      <div
+        class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent"
+      ></div>
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-slate-800 font-semibold text-lg">QRs Pendientes</h3>
+        <a class="text-sm font-medium text-primary hover:underline" href="#">Ver todos</a>
+      </div>
+      <div class="flex flex-col gap-3 overflow-y-auto pr-1 scrollbar-hide">
+        @for (qr of qrPendientes(); track qr.id) {
+          <div
+            class="flex items-center justify-between p-3 bg-white/40 backdrop-blur-md rounded-xl border border-white/60 shadow-sm transition-transform hover:-translate-y-0.5"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center border border-orange-200"
+              >
+                <span class="material-symbols-outlined text-orange-500">qr_code</span>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-slate-800 leading-tight">
+                  {{ qr.clienteNombre }}
+                </p>
+                <p class="text-xs text-slate-500">Expira: {{ qr.expiraEn | date: 'short' }}</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-sm font-bold text-slate-800">{{ qr.monto | currency: 'USD' }}</p>
+              @if (qr.status === 'pendiente') {
+                <button
+                  class="text-[10px] font-semibold text-white bg-slate-800 px-2 py-0.5 rounded-full mt-0.5"
+                  (click)="reenviarQR(qr.id)"
+                >
+                  Reenviar
+                </button>
+              } @else if (qr.status === 'expirado') {
+                <button
+                  class="text-[10px] font-semibold text-slate-700 bg-white border border-slate-300 px-2 py-0.5 rounded-full mt-0.5"
+                  (click)="renovarQR(qr.id)"
+                >
+                  Renovar
+                </button>
+              } @else {
+                <span class="text-xs text-slate-400">--</span>
+              }
+            </div>
+          </div>
+        } @empty {
+          <p class="text-sm muted">Sin QRs pendientes</p>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-auto pt-2 shrink-0">
+    <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3 ml-1">
+      Actividad Reciente del Bot
+    </h3>
+    <div class="flex gap-3 overflow-x-auto pb-2 -mx-6 px-6 scrollbar-hide">
+      @for (item of recentActivity(); track item.id) {
+        <div
+          class="flex-shrink-0 flex items-center gap-2 bg-white/30 backdrop-blur-xl border border-white/60 rounded-full px-4 py-2 shadow-sm"
+        >
+          @if (item.type === 'payment') {
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="material-symbols-outlined text-[16px] text-emerald-600">check_circle</span>
+            <p class="text-sm text-slate-700 font-medium">
+              {{ item.title }} <span class="font-bold">{{ item.subtitle }}</span>
+            </p>
+            <span class="text-xs text-slate-500 ml-2">{{ item.time | date: 'short' }}</span>
+          } @else {
+            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+            <span class="material-symbols-outlined text-[16px] text-blue-600">send</span>
+            <p class="text-sm text-slate-700 font-medium">
+              {{ item.title }} <span class="font-bold">{{ item.subtitle }}</span>
+            </p>
+            <span class="text-xs text-slate-500 ml-2">{{ item.time | date: 'short' }}</span>
+          }
+        </div>
+      } @empty {
+        <p class="text-sm muted">No hay actividad reciente</p>
+      }
+    </div>
+  </div>
+</div>

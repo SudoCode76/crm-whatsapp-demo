@@ -1,0 +1,34 @@
+<div class="page">
+  <header class="page-header">
+    <h1 class="page-title">Historial de Cobros QR</h1>
+    <a routerLink="/payments/new" class="btn-primary">+ Generar QR</a>
+  </header>
+  <div class="table-wrap glass">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Descripción</th>
+          <th>Monto</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of payments(); track p.id) {
+          <tr>
+            <td>{{ p.clienteNombre }}</td>
+            <td>{{ p.descripcion }}</td>
+            <td>Q {{ p.monto.toFixed(2) }}</td>
+            <td>
+              <span class="badge badge--{{ p.status }}">{{ p.status }}</span>
+            </td>
+            <td>{{ p.creadoEn | date: 'dd/MM/yyyy' }}</td>
+            <td><a [routerLink]="['/payments', p.id]" class="link">Ver</a></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

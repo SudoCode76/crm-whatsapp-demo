@@ -1,0 +1,35 @@
+<div class="shell-layout">
+  <app-sidebar [items]="navItems()" [user]="user()" (logout)="logout()"></app-sidebar>
+
+  <!-- Main area: header + scrollable content -->
+  <main class="shell-main">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div
+        class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent"
+      ></div>
+      <h2 class="text-lg font-semibold text-slate-800">{{ pageTitle() }}</h2>
+      <div class="flex items-center gap-3">
+        <div
+          class="px-4 py-1.5 bg-white/30 backdrop-blur-md rounded-full border border-white/60 shadow-sm flex items-center gap-2"
+        >
+          <span class="material-symbols-outlined text-[18px] text-slate-600">calendar_today</span>
+          <span class="text-sm font-medium text-slate-700">{{ today }}</span>
+        </div>
+        <button
+          class="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors shadow-sm relative"
+        >
+          <span class="material-symbols-outlined text-[20px]">notifications</span>
+          <span
+            class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border border-white"
+          ></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-content">
+      <router-outlet />
+    </div>
+  </main>
+</div>

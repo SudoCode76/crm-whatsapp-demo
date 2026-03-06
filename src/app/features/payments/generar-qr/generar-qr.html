@@ -1,0 +1,41 @@
+<div class="page">
+  <h1 class="page-title">Generar QR de cobro</h1>
+  <div class="form-card glass">
+    <div class="field">
+      <label>Cliente *</label>
+      <select
+        class="field-input"
+        [value]="clienteId()"
+        (change)="clienteId.set($any($event.target).value)"
+      >
+        <option value="">Seleccionar cliente…</option>
+        @for (c of clientes(); track c.id) {
+          <option [value]="c.id">{{ c.nombre }} — {{ c.telefono }}</option>
+        }
+      </select>
+    </div>
+    <div class="field">
+      <label>Monto (GTQ) *</label>
+      <input
+        type="number"
+        min="1"
+        class="field-input"
+        [value]="monto()"
+        (input)="monto.set(+$any($event.target).value)"
+      />
+    </div>
+    <div class="field">
+      <label>Descripción</label>
+      <input
+        type="text"
+        class="field-input"
+        [value]="descripcion()"
+        (input)="descripcion.set($any($event.target).value)"
+        placeholder="Ej: Factura #001"
+      />
+    </div>
+    <button class="btn-primary" (click)="generar()" [disabled]="!clienteId() || monto() <= 0">
+      Generar QR
+    </button>
+  </div>
+</div>

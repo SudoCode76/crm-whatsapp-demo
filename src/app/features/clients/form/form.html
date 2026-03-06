@@ -1,0 +1,46 @@
+<div class="page">
+  <h1 class="page-title">{{ isEdit() ? 'Editar cliente' : 'Nuevo cliente' }}</h1>
+  <form class="form-card glass" (ngSubmit)="guardar()">
+    <div class="field">
+      <label>Nombre *</label
+      ><input
+        type="text"
+        [value]="nombre()"
+        (input)="nombre.set($any($event.target).value)"
+        required
+      />
+    </div>
+    <div class="field">
+      <label>Teléfono *</label
+      ><input
+        type="text"
+        [value]="telefono()"
+        (input)="telefono.set($any($event.target).value)"
+        required
+      />
+    </div>
+    <div class="field">
+      <label>Email</label
+      ><input type="email" [value]="email()" (input)="email.set($any($event.target).value)" />
+    </div>
+    <div class="field">
+      <label>Empresa</label
+      ><input type="text" [value]="empresa()" (input)="empresa.set($any($event.target).value)" />
+    </div>
+    <div class="field">
+      <label>NIT</label
+      ><input type="text" [value]="nit()" (input)="nit.set($any($event.target).value)" />
+    </div>
+    <div class="field">
+      <label>Dirección</label
+      ><input
+        type="text"
+        [value]="direccion()"
+        (input)="direccion.set($any($event.target).value)"
+      />
+    </div>
+    <button type="submit" class="btn-primary">
+      {{ isEdit() ? 'Guardar cambios' : 'Crear cliente' }}
+    </button>
+  </form>
+</div>

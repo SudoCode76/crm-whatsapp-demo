@@ -1,0 +1,44 @@
+<div class="page">
+  <h1 class="page-title">Configuración del Bot</h1>
+  <div class="config-card glass">
+    <div class="field">
+      <label>Estado del bot</label>
+      <div class="toggle-row">
+        <span>{{ activo() ? 'Activo' : 'Inactivo' }}</span>
+        <button
+          class="toggle"
+          [class.toggle--on]="activo()"
+          (click)="activo.set(!activo())"
+          role="switch"
+          [attr.aria-checked]="activo()"
+        >
+          <span class="toggle-thumb"></span>
+        </button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Tono de respuesta</label>
+      <div class="radio-group">
+        @for (t of ['formal', 'amigable', 'neutro']; track t) {
+          <button
+            class="radio-btn"
+            [class.radio-btn--active]="tono() === t"
+            (click)="setTono($any(t))"
+          >
+            {{ t }}
+          </button>
+        }
+      </div>
+    </div>
+    <div class="field">
+      <label>Mensaje de saludo</label>
+      <textarea
+        class="textarea"
+        rows="3"
+        [value]="saludo()"
+        (input)="saludo.set($any($event.target).value)"
+      ></textarea>
+    </div>
+    <button class="btn-primary" (click)="guardar()">Guardar configuración</button>
+  </div>
+</div>

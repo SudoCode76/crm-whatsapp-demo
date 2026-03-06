@@ -1,0 +1,40 @@
+<div class="conv-page">
+  @if (conversacion(); as conv) {
+    <header class="conv-header glass">
+      <span class="conv-avatar-lg">{{ conv.clienteNombre[0] }}</span>
+      <div class="conv-contact">
+        <span class="conv-contact-name">{{ conv.clienteNombre }}</span>
+        <span class="conv-contact-phone">{{ conv.clienteTelefono }}</span>
+      </div>
+      <div class="conv-actions">
+        <button class="action-btn" (click)="mostrarAsignacion.set(true)">Asignar</button>
+        <button class="action-btn action-btn--danger" (click)="cerrar()">Cerrar chat</button>
+      </div>
+    </header>
+
+    <div class="messages-area">
+      @for (msg of conv.mensajes; track msg.id) {
+        <div class="msg-row msg-row--{{ msg.origen }}">
+          <div class="bubble bubble--{{ msg.origen }}">
+            <p class="bubble-text">{{ msg.texto }}</p>
+            <span class="bubble-time">{{ msg.timestamp | date: 'HH:mm' }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <footer class="conv-footer glass">
+      <input
+        class="msg-input"
+        type="text"
+        placeholder="Escribe un mensaje…"
+        [value]="nuevoMensaje()"
+        (input)="onInput($event)"
+        (keydown.enter)="enviar()"
+      />
+      <button class="send-btn" (click)="enviar()" aria-label="Enviar">➤</button>
+    </footer>
+  } @else {
+    <div class="not-found">Conversación no encontrada.</div>
+  }
+</div>

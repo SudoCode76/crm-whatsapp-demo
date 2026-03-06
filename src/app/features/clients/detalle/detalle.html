@@ -1,0 +1,55 @@
+<div class="page">
+  @if (client(); as c) {
+    <header class="page-header">
+      <h1 class="page-title">{{ c.nombre }}</h1>
+      <a [routerLink]="['/clients', c.id, 'edit']" class="btn-secondary">Editar</a>
+    </header>
+
+    <div class="detail-grid">
+      <div class="detail-card glass">
+        <h2 class="card-title">Datos del cliente</h2>
+        <dl class="dl">
+          <dt>Teléfono</dt>
+          <dd>{{ c.telefono }}</dd>
+          <dt>Email</dt>
+          <dd>{{ c.email ?? '—' }}</dd>
+          <dt>Empresa</dt>
+          <dd>{{ c.empresa ?? '—' }}</dd>
+          <dt>NIT</dt>
+          <dd>{{ c.nit ?? '—' }}</dd>
+          <dt>Dirección</dt>
+          <dd>{{ c.direccion ?? '—' }}</dd>
+          <dt>Estado</dt>
+          <dd>{{ c.activo ? 'Activo' : 'Inactivo' }}</dd>
+        </dl>
+      </div>
+
+      <div class="detail-card glass">
+        <h2 class="card-title">Historial de cobros ({{ pagos().length }})</h2>
+        @for (p of pagos(); track p.id) {
+          <div class="list-item">
+            <span>{{ p.descripcion }}</span>
+            <span class="amount">Q {{ p.monto.toFixed(2) }}</span>
+            <span class="badge badge--{{ p.status }}">{{ p.status }}</span>
+          </div>
+        } @empty {
+          <p class="empty">Sin cobros registrados.</p>
+        }
+      </div>
+
+      <div class="detail-card glass">
+        <h2 class="card-title">Conversaciones ({{ conversaciones().length }})</h2>
+        @for (conv of conversaciones(); track conv.id) {
+          <a [routerLink]="['/inbox', conv.id]" class="list-item list-item--link">
+            <span>{{ conv.ultimoMensaje }}</span>
+            <span class="badge badge--{{ conv.status }}">{{ conv.status }}</span>
+          </a>
+        } @empty {
+          <p class="empty">Sin conversaciones.</p>
+        }
+      </div>
+    </div>
+  } @else {
+    <p class="not-found">Cliente no encontrado.</p>
+  }
+</div>

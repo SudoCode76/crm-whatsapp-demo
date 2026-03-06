@@ -1,0 +1,69 @@
+<div class="login-card">
+  <!-- Línea superior decorativa -->
+  <div class="top-line"></div>
+
+  <!-- Ícono / logo -->
+  <div class="logo-wrap">
+    <span class="material-symbols-outlined logo-icon">chat_bubble</span>
+  </div>
+
+  <!-- Título -->
+  <div class="login-header">
+    <h1 class="login-title">CobraBot</h1>
+    <p class="login-subtitle">Sistema de Cobranzas por WhatsApp</p>
+  </div>
+
+  <!-- Formulario -->
+  <form class="login-form" (submit)="$event.preventDefault(); submit()">
+    <!-- Email -->
+    <div class="field">
+      <label class="field-label" for="email">Email</label>
+      <div class="input-wrap">
+        <span class="material-symbols-outlined input-icon">mail</span>
+        <input
+          id="email"
+          type="email"
+          class="field-input"
+          placeholder="nombre@empresa.com"
+          autocomplete="email"
+          required
+          [value]="email()"
+          (input)="onEmailInput($event)"
+        />
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="field">
+      <label class="field-label" for="password">Password</label>
+      <div class="input-wrap">
+        <span class="material-symbols-outlined input-icon">lock</span>
+        <input
+          id="password"
+          type="password"
+          class="field-input"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required
+          [value]="password()"
+          (input)="onPasswordInput($event)"
+        />
+      </div>
+    </div>
+
+    <!-- Error -->
+    @if (error()) {
+      <p class="login-error" role="alert">{{ error() }}</p>
+    }
+
+    <!-- Botón submit -->
+    <button type="submit" class="btn-submit" [disabled]="loading()">
+      <div class="btn-inner-shine"></div>
+      @if (loading()) {
+        Ingresando…
+      } @else {
+        Iniciar Sesión
+      }
+    </button>
+  </form>
+</div>

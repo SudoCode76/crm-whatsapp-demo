@@ -1,0 +1,38 @@
+<div class="page">
+  @if (pago(); as p) {
+    <h1 class="page-title">Detalle de cobro</h1>
+    <div class="detail-wrap">
+      <div class="detail-card glass">
+        <dl class="dl">
+          <dt>Cliente</dt>
+          <dd>{{ p.clienteNombre }}</dd>
+          <dt>Descripción</dt>
+          <dd>{{ p.descripcion }}</dd>
+          <dt>Monto</dt>
+          <dd class="amount">Q {{ p.monto.toFixed(2) }} {{ p.moneda }}</dd>
+          <dt>Estado</dt>
+          <dd>
+            <span class="badge badge--{{ p.status }}">{{ p.status }}</span>
+          </dd>
+          <dt>Creado</dt>
+          <dd>{{ p.creadoEn | date: 'dd/MM/yyyy HH:mm' }}</dd>
+          <dt>Expira</dt>
+          <dd>{{ p.expiraEn | date: 'dd/MM/yyyy HH:mm' }}</dd>
+          @if (p.pagadoEn) {
+            <dt>Pagado el</dt>
+            <dd>{{ p.pagadoEn | date: 'dd/MM/yyyy HH:mm' }}</dd>
+          }
+        </dl>
+        @if (p.status === 'pendiente') {
+          <button class="btn-success" (click)="simularPago()">✓ Simular pago recibido</button>
+        }
+      </div>
+      <div class="qr-card glass">
+        <p class="qr-label">Código QR</p>
+        <div class="qr-placeholder">QR<br />{{ p.qrCode }}</div>
+      </div>
+    </div>
+  } @else {
+    <p class="not-found">Cobro no encontrado.</p>
+  }
+</div>
