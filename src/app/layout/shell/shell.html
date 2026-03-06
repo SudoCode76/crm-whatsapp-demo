@@ -1,5 +1,18 @@
 <div class="shell-layout">
-  <app-sidebar [items]="navItems()" [user]="user()" (logout)="logout()"></app-sidebar>
+  <div class="sidebar-wrapper">
+    <app-sidebar
+      [items]="navItems()"
+      [user]="user()"
+      [collapsed]="isSidebarCollapsed"
+      [mobileOpen]="isSidebarMobileOpen"
+      (logout)="logout()"
+      (toggle)="toggleSidebar()"
+      (closeMobile)="closeSidebarMobile()"
+    ></app-sidebar>
+  </div>
+  @if (isSidebarMobileOpen()) {
+    <div class="fixed inset-0 bg-black/40 z-30 md:hidden" (click)="closeSidebarMobile()"></div>
+  }
 
   <!-- Main area: header + scrollable content -->
   <main class="shell-main">
@@ -10,6 +23,13 @@
       ></div>
       <h2 class="text-lg font-semibold text-slate-800">{{ pageTitle() }}</h2>
       <div class="flex items-center gap-3">
+        <button
+          class="md:hidden w-8 h-8 bg-white/30 rounded-full flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors mr-2"
+          (click)="openSidebarMobile()"
+          aria-label="Abrir menú"
+        >
+          <span class="material-symbols-outlined">menu</span>
+        </button>
         <div
           class="px-4 py-1.5 bg-white/30 backdrop-blur-md rounded-full border border-white/60 shadow-sm flex items-center gap-2"
         >

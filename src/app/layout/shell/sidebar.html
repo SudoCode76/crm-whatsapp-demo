@@ -1,18 +1,51 @@
 <aside
-  class="relative z-20 w-[240px] min-w-[240px] h-screen bg-white/[0.12] backdrop-blur-[48px] border-r border-white/40 shadow-[4px_0_24px_0_rgba(31,38,135,0.05)] flex flex-col overflow-hidden"
+  class="relative z-20 h-screen bg-white/[0.12] backdrop-blur-[48px] border-r border-white/40 shadow-[4px_0_24px_0_rgba(31,38,135,0.05)] flex flex-col overflow-hidden transition-all duration-300 ease-in-out"
+  [style.width.px]="collapsed() ? 72 : 240"
+  [style.minWidth.px]="collapsed() ? 72 : 240"
+  [attr.data-mobile-open]="mobileOpen() ? '1' : '0'"
+  [attr.data-collapsed]="collapsed() ? '1' : '0'"
 >
-  <!-- Brand -->
-  <div class="px-5 py-5 flex items-center gap-3 flex-shrink-0">
+  <!-- Brand + toggle -->
+  <div class="px-4 py-4 flex items-center gap-3 flex-shrink-0">
     <div
       class="w-10 h-10 bg-white/40 backdrop-blur-[12px] rounded-xl flex items-center justify-center border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)] flex-shrink-0"
     >
       <span class="material-symbols-outlined text-[22px] brand-icon">chat_bubble</span>
     </div>
-    <h1 class="text-xl font-bold text-slate-800 tracking-tight truncate">CobraBot</h1>
+    @if (!collapsed()) {
+      <h1 class="text-xl font-bold text-slate-800 tracking-tight truncate">CobraBot</h1>
+    } @else {
+      <span class="sr-only">CobraBot</span>
+    }
+
+    <div class="ml-auto flex items-center gap-2">
+      <!-- collapse toggle -->
+      <button
+        class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors"
+        (click)="onToggle()"
+        aria-pressed="{{ collapsed() }}"
+        aria-label="Toggle sidebar"
+      >
+        <span
+          class="material-symbols-outlined"
+          [innerText]="collapsed() ? 'chevron_right' : 'chevron_left'"
+        ></span>
+      </button>
+      <!-- mobile close when shown as overlay -->
+      @if (mobileOpen()) {
+        <button
+          class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors md:hidden"
+          (click)="closeMobile.emit()"
+          aria-label="Cerrar sidebar"
+        >
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      }
+    </div>
   </div>
 
   <!-- Nav -->
-  <nav class="flex-1 px-3 py-2 space-y-1 overflow-y-auto overflow-x-hidden">
+  <nav class="flex-1 px-2 py-2 space-y-1 overflow-y-auto overflow-x-hidden">
     @for (item of itemsSignal(); track item.route) {
       <a
         [routerLink]="item.route"
@@ -22,7 +55,11 @@
         <span class="material-symbols-outlined text-slate-500 nav-icon flex-shrink-0 text-[20px]">{{
           item.icon
         }}</span>
-        <span class="truncate text-sm leading-tight">{{ item.label }}</span>
+        @if (!collapsed()) {
+          <span class="truncate text-sm leading-tight">{{ item.label }}</span>
+        } @else {
+          <span class="sr-only">{{ item.label }}</span>
+        }
         @if (item.badge && item.badge > 0) {
           <span
             class="ml-auto flex-shrink-0 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
@@ -43,19 +80,29 @@
       >
         {{ user()?.avatar ?? 'AG' }}
       </div>
-      <div class="flex-1 min-w-0">
-        <p class="text-sm font-semibold text-slate-800 truncate">
-          {{ user()?.nombre ?? 'Admin General' }}
-        </p>
-        <p class="text-xs text-slate-500 truncate">{{ user()?.email ?? '' }}</p>
-      </div>
-      <button
-        class="text-slate-500 hover:text-slate-800 transition-colors text-sm flex-shrink-0"
-        (click)="onLogout()"
-        aria-label="Cerrar sesión"
-      >
-        ↪
-      </button>
+      @if (!collapsed()) {
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-semibold text-slate-800 truncate">
+            {{ user()?.nombre ?? 'Admin General' }}
+          </p>
+          <p class="text-xs text-slate-500 truncate">{{ user()?.email ?? '' }}</p>
+        </div>
+        <button
+          class="text-slate-500 hover:text-slate-800 transition-colors text-sm flex-shrink-0"
+          (click)="onLogout()"
+          aria-label="Cerrar sesión"
+        >
+          ↪
+        </button>
+      } @else {
+        <button
+          class="text-slate-500 hover:text-slate-800 transition-colors text-sm flex-shrink-0"
+          (click)="onLogout()"
+          aria-label="Cerrar sesión"
+        >
+          ↪
+        </button>
+      }
     </div>
   </div>
 </aside>

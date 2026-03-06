@@ -19,6 +19,18 @@ export class Sidebar {
   items = input.required<NavItem[]>();
   user = input.required<any>();
   logout = output<void>();
+  /** whether the sidebar is collapsed (shows icons only) */
+  collapsed = input<boolean>();
+  /** mobile overlay open */
+  mobileOpen = input<boolean>();
+
+  /** emit when the internal toggle button is clicked */
+  toggle = output<void>();
+  /** emit when mobile overlay requests close */
+  closeMobile = output<void>();
+
+  // local UI helpers for template
+  collapseClass = signal('');
 
   // local copy to help templates that expect a signal function
   itemsSignal = signal<NavItem[]>([]);
@@ -30,9 +42,36 @@ export class Sidebar {
     effect(() => {
       this.itemsSignal.set(this.items() ?? []);
     });
+    // update helper class when collapsed changes
+    effect(() => {
+      this.collapseClass.set(this.collapsed() ? 'collapsed' : 'expanded');
+    });
   }
 
   onLogout() {
     this.logout.emit();
+  }
+
+  // invoked by the template when user clicks the collapse button
+  onToggle() {
+    // debug log so developer can see click reached this handler
+    // eslint-disable-next-line no-console
+    console.log('Sidebar: onToggle click');
+
+    try {
+      const c = this.collapsed as any;
+      if (typeof c === 'function' && typeof c.set === 'function') {
+        try {
+          const curr = c();
+          c.set(!curr);
+        } catch (e) {
+          // ignore
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+
+    this.toggle.emit();
   }
 }

@@ -1,4 +1,11 @@
-import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  computed,
+  signal,
+  afterNextRender,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { InboxService } from '../../core/services/inbox.service';
@@ -48,5 +55,44 @@ export class Shell {
 
   logout() {
     this.auth.logout();
+  }
+
+  // Sidebar collapsed state (persisted in localStorage)
+  isSidebarCollapsed = signal(false);
+  isSidebarMobileOpen = signal(false);
+
+  constructor() {
+    // read persisted preference in a browser-safe way
+    afterNextRender(() => {
+      try {
+        const v = localStorage.getItem('cobra:sidebarCollapsed');
+        if (v !== null) this.isSidebarCollapsed.set(v === '1');
+      } catch (e) {
+        // ignore (SSR or security)
+      }
+    });
+  }
+
+  toggleSidebar() {
+    // debug
+    // eslint-disable-next-line no-console
+    console.log('Shell: toggleSidebar invoked, current:', this.isSidebarCollapsed());
+    this.isSidebarCollapsed.update((v) => {
+      const next = !v;
+      afterNextRender(() => {
+        try {
+          localStorage.setItem('cobra:sidebarCollapsed', next ? '1' : '0');
+        } catch (e) {}
+      });
+      return next;
+    });
+  }
+
+  openSidebarMobile() {
+    this.isSidebarMobileOpen.set(true);
+  }
+
+  closeSidebarMobile() {
+    this.isSidebarMobileOpen.set(false);
   }
 }

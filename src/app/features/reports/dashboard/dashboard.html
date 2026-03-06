@@ -1,6 +1,7 @@
 <!-- Dashboard content — scroll managed by shell's .page-content -->
 <div class="p-6 flex flex-col gap-6 h-full overflow-y-auto">
-  <div class="grid grid-cols-4 gap-4 shrink-0">
+  <!-- Responsive grid: 1 col mobile, 2 cols md, 4 cols lg for KPI cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 shrink-0">
     <div
       class="bg-white/[0.25] backdrop-blur-[24px] rounded-2xl border border-white/50 p-5 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative overflow-hidden"
     >
@@ -90,9 +91,9 @@
     </div>
   </div>
 
-  <div class="flex gap-6 min-h-[360px]">
+  <div class="flex flex-col lg:flex-row gap-6 min-h-[360px]">
     <div
-      class="w-3/5 bg-white/[0.20] backdrop-blur-[32px] rounded-2xl border border-white/50 p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative flex flex-col"
+      class="lg:w-3/5 w-full bg-white/[0.20] backdrop-blur-[32px] rounded-2xl border border-white/50 p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative flex flex-col"
     >
       <div
         class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent"
@@ -145,7 +146,7 @@
       </div>
     </div>
     <div
-      class="w-2/5 bg-white/[0.20] backdrop-blur-[32px] rounded-2xl border border-white/50 p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative flex flex-col"
+      class="lg:w-2/5 w-full bg-white/[0.20] backdrop-blur-[32px] rounded-2xl border border-white/50 p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.05)] relative flex flex-col"
     >
       <div
         class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent"
