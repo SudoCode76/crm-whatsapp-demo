@@ -160,8 +160,9 @@ app-shell {
 
 /* Fix 3: router-outlet inserts component custom elements as direct children of
    .page-inner. They have no intrinsic display. Make each one a flex column so
-   its internal template can stretch to fill the available height. */
-.page-inner > * {
+   its internal template can stretch to fill the available height.
+   Exclude router-outlet itself (it's an invisible marker element). */
+.page-inner > *:not(router-outlet) {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
@@ -184,8 +185,7 @@ app-shell {
 }
 
 .page > :not(.page-header) {
-  flex: 1 1 auto;
-  min-height: 0;
+  flex: 0 0 auto;
 }
 
 @media (max-width: 900px) {

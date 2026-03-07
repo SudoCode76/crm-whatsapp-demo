@@ -46,12 +46,7 @@ import { UsersService } from '../../../core/services/users.service';
     </div>
   `,
   styles: `
-    .page {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    /* .page layout handled globally in styles.css */
     .page-header {
       display: flex;
       align-items: center;

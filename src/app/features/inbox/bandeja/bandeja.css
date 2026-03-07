@@ -1,9 +1,4 @@
-.bandeja-page {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
+/* .bandeja-page renamed to .page — layout handled globally in styles.css */
 .page-header {
   display: flex;
   flex-direction: column;

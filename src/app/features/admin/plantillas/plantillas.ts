@@ -31,12 +31,7 @@ import { Template } from '../../../core/models/template.model';
     </div>
   `,
   styles: `
-    .page {
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    /* .page layout handled globally in styles.css */
     .page-title {
       font-size: 1.375rem;
       font-weight: 700;
