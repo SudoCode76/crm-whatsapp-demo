@@ -24,23 +24,32 @@
       <div
         class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent"
       ></div>
-      <h2 class="text-lg font-semibold text-slate-800">{{ pageTitle() }}</h2>
-      <div class="flex items-center gap-3">
+
+      <!-- Lado izquierdo: botón hamburguesa (solo móvil) + título -->
+      <div class="flex items-center gap-2 min-w-0">
         <button
-          class="md:hidden w-8 h-8 bg-white/30 rounded-full flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors mr-2"
+          class="md:hidden flex-shrink-0 w-9 h-9 bg-white/30 rounded-full flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors"
           (click)="openSidebarMobile()"
           aria-label="Abrir menú"
+          type="button"
         >
-          <span class="material-symbols-outlined">menu</span>
+          <span class="material-symbols-outlined text-[22px]">menu</span>
         </button>
+        <h2 class="text-lg font-semibold text-slate-800 truncate">{{ pageTitle() }}</h2>
+      </div>
+
+      <!-- Lado derecho: fecha + notificaciones -->
+      <div class="flex items-center gap-3 flex-shrink-0">
         <div
-          class="px-4 py-1.5 bg-white/30 backdrop-blur-md rounded-full border border-white/60 shadow-sm flex items-center gap-2"
+          class="hidden sm:flex px-4 py-1.5 bg-white/30 backdrop-blur-md rounded-full border border-white/60 shadow-sm items-center gap-2"
         >
           <span class="material-symbols-outlined text-[18px] text-slate-600">calendar_today</span>
           <span class="text-sm font-medium text-slate-700">{{ today }}</span>
         </div>
         <button
           class="w-8 h-8 bg-white/30 rounded-full flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors shadow-sm relative"
+          aria-label="Notificaciones"
+          type="button"
         >
           <span class="material-symbols-outlined text-[20px]">notifications</span>
           <span

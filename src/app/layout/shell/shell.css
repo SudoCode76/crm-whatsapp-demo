@@ -49,16 +49,14 @@
 }
 
 /* Sidebar wrapper — flex-shrink:0 keeps it from collapsing in the flex row.
-   The <aside> inside drives the actual width; the wrapper follows it via
-   the content sizing. The transition here mirrors the aside's own transition
-   so the main content area also slides smoothly. */
+   Width follows the host element (driven by host bindings in sidebar.ts).
+   overflow:visible lets the floating desktop handle peek out. */
 .sidebar-wrapper {
   flex-shrink: 0;
-  transition: width 300ms ease-in-out;
-  overflow: visible; /* allow the floating handle inside <aside> to be visible */
+  overflow: visible;
 }
 
-/* small always-visible handle to toggle the sidebar */
+/* small always-visible handle to toggle the sidebar (desktop only) */
 .sidebar-handle {
   position: fixed;
   top: 50%;
@@ -81,28 +79,35 @@
   color: #0b72e6;
 }
 
-/* Mobile overlay behavior — the actual sidebar component will use the mobileOpen input
-   to render as fixed overlay; these rules keep the wrapper ready for that layout. */
+/* ── Mobile overlay ──────────────────────────────────────────────────────── */
 @media (max-width: 767px) {
+  /* En móvil el wrapper no ocupa espacio en el flujo */
   .sidebar-wrapper {
-    position: fixed;
-    inset: 0 auto 0 0;
-    z-index: 40;
+    width: 0;
+    flex-shrink: 0;
+    overflow: visible;
   }
-}
 
-/* When the sidebar element has data-mobile-open=1, position it as an overlay on small screens */
-@media (max-width: 767px) {
-  app-sidebar[data-mobile-open='1'] {
+  /* El host app-sidebar sale de pantalla por defecto */
+  app-sidebar {
     position: fixed;
-    inset: 0 auto 0 0;
-    width: 240px !important;
-    min-width: 240px !important;
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 260px;
     z-index: 50;
+    transform: translateX(-110%);
+    transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+
+  /* Cuando el overlay está abierto (binding host en sidebar.ts) */
+  app-sidebar[data-mobile-open='1'] {
     transform: translateX(0);
   }
 
-  app-sidebar[data-mobile-open='0'] {
-    transform: translateX(-110%);
+  /* Ocultar el handle de escritorio en móvil */
+  .sidebar-handle {
+    display: none;
   }
 }

@@ -1,119 +1,119 @@
 <aside
-  class="relative h-screen bg-white/[0.12] backdrop-blur-[48px] border-r border-white/40 shadow-[4px_0_24px_0_rgba(31,38,135,0.05)] flex flex-col transition-all duration-300 ease-in-out overflow-hidden"
-  [style.width.px]="collapsed() ? 72 : 240"
-  [style.minWidth.px]="collapsed() ? 72 : 240"
-  [attr.data-mobile-open]="mobileOpen() ? '1' : '0'"
-  [attr.data-collapsed]="collapsed() ? '1' : '0'"
+  class="sidebar-aside relative h-full flex flex-col transition-all duration-300 ease-in-out overflow-hidden"
 >
   <!-- Brand + toggle -->
-  <div class="px-4 py-4 flex items-center gap-3 flex-shrink-0 min-w-0">
+  <div
+    class="sidebar-brand flex items-center gap-3 flex-shrink-0 min-w-0 px-4 py-4"
+    [class.justify-center]="collapsed()"
+    [class.px-0]="collapsed()"
+  >
     <div
       class="w-10 h-10 bg-white/40 backdrop-blur-[12px] rounded-xl flex items-center justify-center border border-white/60 shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)] flex-shrink-0"
     >
       <span class="material-symbols-outlined text-[22px] brand-icon">chat_bubble</span>
     </div>
     @if (!collapsed()) {
-      <h1 class="text-xl font-bold text-slate-800 tracking-tight truncate flex-1 min-w-0">
+      <h1 class="text-xl font-bold text-slate-800 tracking-tight truncate flex-1 min-w-0 px-4">
         CobraBot
       </h1>
-    } @else {
-      <span class="sr-only">CobraBot</span>
+      <button
+        class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors flex-shrink-0"
+        (click)="onToggle()"
+        aria-label="Contraer sidebar"
+        type="button"
+      >
+        <span class="material-symbols-outlined text-[20px]">chevron_left</span>
+      </button>
     }
-
-    <div class="ml-auto flex items-center gap-2 flex-shrink-0">
-      <!-- desktop collapse toggle — hidden when sidebar is fully collapsed (no room) -->
-      @if (!collapsed()) {
-        <button
-          class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors"
-          (click)="onToggle()"
-          [attr.aria-pressed]="collapsed()"
-          aria-label="Contraer sidebar"
-        >
-          <span class="material-symbols-outlined">chevron_left</span>
-        </button>
-      }
-      <!-- mobile close button — only shown as overlay -->
-      @if (mobileOpen()) {
-        <button
-          class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors md:hidden"
-          (click)="closeMobile.emit()"
-          aria-label="Cerrar sidebar"
-        >
-          <span class="material-symbols-outlined">close</span>
-        </button>
-      }
-    </div>
   </div>
 
-  <!-- Expand button — visible only when collapsed -->
   @if (collapsed()) {
-    <div class="flex justify-center py-1 flex-shrink-0">
+    <div class="flex justify-center pb-2 flex-shrink-0">
       <button
         class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors"
         (click)="onToggle()"
-        [attr.aria-pressed]="collapsed()"
         aria-label="Expandir sidebar"
+        type="button"
       >
-        <span class="material-symbols-outlined">chevron_right</span>
+        <span class="material-symbols-outlined text-[20px]">chevron_right</span>
       </button>
     </div>
   }
 
+  <!-- mobile close button — only shown as overlay -->
+  @if (mobileOpen()) {
+    <div class="flex justify-center md:hidden">
+      <button
+        class="w-8 h-8 rounded-full bg-white/30 flex items-center justify-center border border-white/50 text-slate-600 hover:bg-white/50 transition-colors"
+        (click)="closeMobile.emit()"
+        aria-label="Cerrar sidebar"
+        type="button"
+      >
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+  }
+
+  <!-- expand button moved inline into brand to avoid jump when collapsed -->
+
   <!-- Nav -->
-  <nav class="flex-1 px-2 py-2 space-y-1 overflow-y-auto overflow-x-hidden">
+  <nav class="sidebar-nav flex-1 py-2 overflow-y-auto overflow-x-hidden">
     @for (item of items(); track item.id) {
       <a
         [routerLink]="item.route"
         routerLinkActive="nav-item--active"
-        class="nav-item flex items-center gap-3 px-3 py-2.5 text-slate-600 font-medium hover:bg-white/20 rounded-lg transition-colors border border-transparent hover:border-white/30 w-full min-w-0"
+        class="nav-item"
+        [class.nav-item--collapsed]="collapsed()"
         [attr.title]="collapsed() ? item.label : null"
+        [attr.aria-label]="item.label"
       >
-        <span class="material-symbols-outlined text-slate-500 nav-icon flex-shrink-0 text-[20px]">{{
-          item.icon
-        }}</span>
+        <span class="material-symbols-outlined nav-icon">{{ item.icon }}</span>
         @if (!collapsed()) {
-          <span class="text-sm leading-tight overflow-hidden text-ellipsis whitespace-nowrap">{{
-            item.label
-          }}</span>
-        } @else {
-          <span class="sr-only">{{ item.label }}</span>
-        }
-        @if (item.badge && item.badge > 0 && !collapsed()) {
-          <span
-            class="ml-auto flex-shrink-0 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full"
-            >{{ item.badge }}</span
-          >
+          <span class="nav-label">{{ item.label }}</span>
+          @if (item.badge && item.badge > 0) {
+            <span class="nav-badge">{{ item.badge }}</span>
+          }
         }
       </a>
     }
   </nav>
 
   <!-- User footer -->
-  <div class="px-3 py-3 flex-shrink-0">
-    <div
-      class="flex items-center gap-2 px-3 py-3 bg-white/20 backdrop-blur-md rounded-xl border border-white/40 min-w-0"
-    >
+  <div class="sidebar-footer flex-shrink-0">
+    @if (!collapsed()) {
       <div
-        class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-400 to-emerald-300 shadow-sm border border-white flex items-center justify-center text-white font-bold text-xs flex-shrink-0"
-        [attr.title]="collapsed() ? (user()?.nombre ?? 'Admin General') : null"
+        class="footer-inner flex items-center gap-2 px-3 py-3 bg-white/20 backdrop-blur-md rounded-xl border border-white/40 min-w-0"
       >
-        {{ user()?.avatar ?? 'AG' }}
-      </div>
-      @if (!collapsed()) {
+        <div
+          class="user-avatar w-8 h-8 rounded-full bg-gradient-to-tr from-blue-400 to-emerald-300 shadow-sm border border-white flex items-center justify-center text-white font-bold text-xs flex-shrink-0"
+          [attr.title]="user()?.nombre ?? 'Admin General'"
+        >
+          {{ user()?.avatar ?? 'AG' }}
+        </div>
         <div class="flex-1 min-w-0">
           <p class="text-sm font-semibold text-slate-800 truncate">
             {{ user()?.nombre ?? 'Admin General' }}
           </p>
           <p class="text-xs text-slate-500 truncate">{{ user()?.email ?? '' }}</p>
         </div>
-      }
-      <button
-        class="text-slate-500 hover:text-slate-800 transition-colors text-sm flex-shrink-0"
-        (click)="onLogout()"
-        aria-label="Cerrar sesión"
-      >
-        ↪
-      </button>
-    </div>
+        <button
+          class="text-slate-500 hover:text-slate-800 transition-colors text-sm flex-shrink-0"
+          (click)="onLogout()"
+          aria-label="Cerrar sesión"
+          type="button"
+        >
+          <span class="material-symbols-outlined">logout</span>
+        </button>
+      </div>
+    } @else {
+      <div class="flex justify-center py-3">
+        <div
+          class="user-avatar w-10 h-10 rounded-full bg-gradient-to-tr from-blue-400 to-emerald-300 shadow-sm border border-white flex items-center justify-center text-white font-bold text-sm"
+          [attr.title]="user()?.nombre ?? 'Admin General'"
+        >
+          {{ user()?.avatar ?? 'AG' }}
+        </div>
+      </div>
+    }
   </div>
 </aside>

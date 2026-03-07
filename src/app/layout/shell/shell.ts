@@ -151,6 +151,10 @@ export class Shell implements OnDestroy {
     }
   }
 
+  // Focus management for mobile sidebar overlay
+  private _previousFocus: HTMLElement | null = null;
+  private _mobileKeyHandler: ((ev: KeyboardEvent) => void) | null = null;
+
   // ── Sidebar actions ──────────────────────────────────────────────────────
   onSidebarToggleRequest(desired: boolean): void {
     this.isSidebarCollapsed.set(desired);
@@ -162,10 +166,82 @@ export class Shell implements OnDestroy {
   }
 
   openSidebarMobile(): void {
+    // Save previously focused element so we can restore focus on close.
+    try {
+      this._previousFocus = (document.activeElement as HTMLElement) ?? null;
+    } catch {
+      this._previousFocus = null;
+    }
+
     this.isSidebarMobileOpen.set(true);
+
+    // After the overlay is rendered, move focus into the sidebar and install
+    // a basic focus trap (Tab / Shift+Tab) and Escape-to-close behavior.
+    afterNextRender(() => {
+      const host = document.querySelector('app-sidebar') as HTMLElement | null;
+      if (!host) return;
+
+      // Focus the first focusable element inside the sidebar.
+      const focusable = Array.from(
+        host.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((el) => !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length));
+
+      if (focusable.length) {
+        focusable[0].focus();
+      } else {
+        // fallback: focus the host so keyboard users are inside the overlay
+        host.focus?.();
+      }
+
+      // Key handler: Trap Tab and handle Escape to close overlay.
+      this._mobileKeyHandler = (ev: KeyboardEvent) => {
+        if (ev.key === 'Escape' || ev.key === 'Esc') {
+          ev.preventDefault();
+          this.closeSidebarMobile();
+          return;
+        }
+
+        if (ev.key !== 'Tab') return;
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (!ev.shiftKey && document.activeElement === last) {
+          ev.preventDefault();
+          first.focus();
+        } else if (ev.shiftKey && document.activeElement === first) {
+          ev.preventDefault();
+          last.focus();
+        }
+      };
+
+      document.addEventListener('keydown', this._mobileKeyHandler as EventListener);
+    });
   }
 
   closeSidebarMobile(): void {
     this.isSidebarMobileOpen.set(false);
+
+    // Remove the key handler and restore focus to the previously focused
+    // element (if any).
+    try {
+      if (this._mobileKeyHandler) {
+        document.removeEventListener('keydown', this._mobileKeyHandler as EventListener);
+        this._mobileKeyHandler = null;
+      }
+    } catch {
+      // ignore
+    }
+
+    try {
+      if (this._previousFocus) this._previousFocus.focus();
+    } catch {
+      // ignore
+    } finally {
+      this._previousFocus = null;
+    }
   }
 }
