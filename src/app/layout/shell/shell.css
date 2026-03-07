@@ -5,16 +5,16 @@
   position: relative;
 }
 
-/* ── Main column (header + content) ─────────────────────────────────────── */
+/* ── Main column (topbar + scrollable content) ───────────────────────────── */
 .shell-main {
-  flex: 1;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  height: 100dvh;
+  min-width: 0; /* prevent flex child from overflowing */
+  min-height: 0;
   overflow: hidden;
   position: relative;
   z-index: 10;
-  min-width: 0; /* prevent flex child from overflowing */
 }
 
 /* ── Topbar ──────────────────────────────────────────────────────────────── */
@@ -33,22 +33,8 @@
   box-shadow: 0 4px 24px 0 rgba(31, 38, 135, 0.02);
 }
 
-/* ── Scrollable page area ────────────────────────────────────────────────── */
-.page-content {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-/* Hide dashboard's own scroll wrapper since page-content handles it */
-.page-content > * {
-  flex: 1;
-}
-
-/* Sidebar wrapper — flex-shrink:0 keeps it from collapsing in the flex row.
+/* ── Sidebar wrapper ─────────────────────────────────────────────────────── */
+/* flex-shrink:0 keeps it from collapsing in the flex row.
    Width follows the host element (driven by host bindings in sidebar.ts).
    overflow:visible lets the floating desktop handle peek out. */
 .sidebar-wrapper {
@@ -56,7 +42,7 @@
   overflow: visible;
 }
 
-/* small always-visible handle to toggle the sidebar (desktop only) */
+/* ── Floating desktop toggle handle ─────────────────────────────────────── */
 .sidebar-handle {
   position: fixed;
   top: 50%;

@@ -11,6 +11,7 @@
   --brand-primary: oklch(65% 0.22 270); /* violet */
   --brand-accent: oklch(72% 0.18 195); /* teal   */
   --surface-dark: oklch(18% 0.02 270);
+  --content-max-width: 1280px;
 }
 
 /* ─── Utility Class ───────────────────────────────────────────────────────── */
@@ -48,13 +49,12 @@ body {
     'Segoe UI Symbol';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Light glass background — same visual as auth pages */
   background: linear-gradient(135deg, #c8e6ff 0%, #eef4ff 50%, #c2f0dc 100%);
   color: #1e293b;
   overflow: hidden;
 }
 
-/* ─── Background orbs (persistent across all routes) ─────────────────────── */
+/* ─── Background orbs ─────────────────────────────────────────────────────── */
 body::before,
 body::after {
   content: '';
@@ -81,7 +81,6 @@ body::after {
   mix-blend-mode: multiply;
 }
 
-/* Third orb via a pseudo on html */
 html::after {
   content: '';
   position: fixed;
@@ -106,11 +105,97 @@ html::after {
   scrollbar-width: none;
 }
 
-/* App shell fills the viewport */
+/* ─── App root fills the viewport ────────────────────────────────────────── */
 app-root {
   display: flex;
   height: 100%;
   width: 100%;
   position: relative;
   z-index: 1;
+}
+
+/* Fix 1: app-shell is an unknown custom element — browsers default it to
+   display:inline. Force it to be a full-size flex column child of app-root. */
+app-shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* ─── Shell layout helpers (global scope required) ───────────────────────── */
+/* These rules live in styles.css so they apply to EVERY component scope,
+   including the components inserted by <router-outlet> inside .page-inner. */
+
+/* Fix 2: scrollable content area.
+   CRITICAL: do NOT set align-items:center here. In a flex-column container,
+   align-items controls the horizontal axis. center would shrink .page-inner
+   to its intrinsic content width instead of stretching it to fill the parent. */
+.page-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  /* align-items: stretch is the default — leave it as is */
+}
+
+/* Centered max-width wrapper; margin:0 auto handles centering on wide screens */
+.page-inner {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 1rem;
+}
+
+/* Fix 3: router-outlet inserts component custom elements as direct children of
+   .page-inner. They have no intrinsic display. Make each one a flex column so
+   its internal template can stretch to fill the available height. */
+.page-inner > * {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ─── Page layout convention ─────────────────────────────────────────────── */
+/* Feature templates use <div class="page"> as their root. This makes it a
+   flex column: page-header stays fixed height, all other children expand. */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.page > .page-header {
+  flex: 0 0 auto;
+}
+
+.page > :not(.page-header) {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+@media (max-width: 900px) {
+  .page-content {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-content {
+    padding: 0.75rem;
+  }
 }
