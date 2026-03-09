@@ -14,7 +14,7 @@ export class Login {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
-  email = signal('carlos@empresa.gt');
+  email = signal('ana.garcia@cobrabot.bo');
   password = signal('demo1234');
   error = signal('');
   loading = signal(false);

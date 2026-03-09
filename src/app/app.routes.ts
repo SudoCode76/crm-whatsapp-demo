@@ -123,12 +123,36 @@ export const routes: Routes = [
           import('./features/reports/comparativo/comparativo').then((m) => m.Comparativo),
       },
 
-      // Admin — solo admin/supervisor
+      // Settings (shell with 3 child tabs)
       {
-        path: 'admin/users',
-        loadComponent: () => import('./features/admin/usuarios/usuarios').then((m) => m.Usuarios),
-        canActivate: [roleGuard(['admin', 'supervisor'])],
+        path: 'settings',
+        loadComponent: () =>
+          import('./features/settings/settings-shell/settings-shell').then((m) => m.SettingsShell),
+        canActivate: [authGuard],
+        children: [
+          { path: '', redirectTo: 'company', pathMatch: 'full' },
+          {
+            path: 'company',
+            loadComponent: () =>
+              import('./features/admin/config-empresa/config-empresa').then((m) => m.ConfigEmpresa),
+            canActivate: [roleGuard(['admin'])],
+          },
+          {
+            path: 'bot',
+            loadComponent: () =>
+              import('./features/chatbot/config/config').then((m) => m.ChatbotConfig),
+            canActivate: [roleGuard(['admin'])],
+          },
+          {
+            path: 'users',
+            loadComponent: () =>
+              import('./features/admin/usuarios/usuarios').then((m) => m.Usuarios),
+            canActivate: [roleGuard(['admin', 'supervisor'])],
+          },
+        ],
       },
+
+      // Admin — standalone legacy routes kept for direct access
       {
         path: 'admin/users/new',
         loadComponent: () => import('./features/admin/user-form/user-form').then((m) => m.UserForm),
@@ -137,12 +161,6 @@ export const routes: Routes = [
       {
         path: 'admin/users/:id/edit',
         loadComponent: () => import('./features/admin/user-form/user-form').then((m) => m.UserForm),
-        canActivate: [roleGuard(['admin'])],
-      },
-      {
-        path: 'admin/company',
-        loadComponent: () =>
-          import('./features/admin/config-empresa/config-empresa').then((m) => m.ConfigEmpresa),
         canActivate: [roleGuard(['admin'])],
       },
       {

@@ -1,0 +1,264 @@
+/* ── Page wrapper ──────────────────────────────────────────────────────── */
+.ce-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────── */
+.ce-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ce-title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: oklch(15% 0.03 270);
+  margin: 0;
+}
+
+.ce-subtitle {
+  font-size: 0.875rem;
+  color: oklch(48% 0.05 270);
+  margin: 0;
+}
+
+/* ── Card ──────────────────────────────────────────────────────────────── */
+.ce-card {
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.ce-card-header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.ce-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: oklch(15% 0.03 270);
+  margin: 0;
+}
+
+/* ── Logo row ──────────────────────────────────────────────────────────── */
+.ce-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.ce-logo-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ce-logo-avatar {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.05em;
+}
+
+.ce-logo-btn {
+  position: absolute;
+  bottom: -0.375rem;
+  right: -0.375rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  border: 2px solid oklch(95% 0 0);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ce-logo-btn:hover {
+  background: oklch(70% 0.22 270);
+}
+
+.ce-logo-hint {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: oklch(20% 0.03 270);
+  margin: 0 0 0.25rem;
+}
+
+.ce-logo-hint-sub {
+  font-size: 0.8rem;
+  color: oklch(48% 0.05 270);
+  margin: 0;
+}
+
+/* ── Form ──────────────────────────────────────────────────────────────── */
+.ce-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ce-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.ce-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.ce-field--full {
+  grid-column: 1 / -1;
+}
+
+.ce-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: oklch(42% 0.05 270);
+}
+
+.ce-input {
+  background: oklch(100% 0 0 / 65%);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.625rem;
+  padding: 0.625rem 0.875rem;
+  color: oklch(15% 0.02 270);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ce-input::placeholder {
+  color: oklch(56% 0.04 270);
+}
+
+.ce-input:focus {
+  border-color: var(--brand-primary);
+}
+
+/* Input with prefix icon */
+.ce-input-group {
+  display: flex;
+  align-items: center;
+  background: oklch(100% 0 0 / 65%);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.625rem;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.ce-input-group:focus-within {
+  border-color: var(--brand-primary);
+}
+
+.ce-input-prefix {
+  padding: 0 0.75rem;
+  color: oklch(60% 0.18 150);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ce-input--prefixed {
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  padding-left: 0;
+}
+
+.ce-input--prefixed:focus {
+  border-color: transparent;
+}
+
+/* ── Saved message ─────────────────────────────────────────────────────── */
+.ce-saved-msg {
+  font-size: 0.875rem;
+  color: oklch(65% 0.18 150);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ce-saved-msg::before {
+  content: '✓';
+  font-weight: 700;
+}
+
+/* ── Actions ───────────────────────────────────────────────────────────── */
+.ce-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.ce-btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--brand-primary);
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  padding: 0.625rem 1.375rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ce-btn-primary:hover {
+  background: oklch(70% 0.22 270);
+}
+
+.ce-btn-secondary {
+  background: oklch(100% 0 0 / 50%);
+  color: oklch(28% 0.03 270);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.75rem;
+  padding: 0.625rem 1.375rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.ce-btn-secondary:hover {
+  background: oklch(100% 0 0 / 70%);
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (width <= 600px) {
+  .ce-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ce-field--full {
+    grid-column: 1;
+  }
+}

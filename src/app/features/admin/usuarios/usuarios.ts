@@ -1,116 +1,83 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { UsersService } from '../../../core/services/users.service';
+import { User, UserRole } from '../../../core/models/user.model';
 
 @Component({
   selector: 'app-usuarios',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
-  template: `
-    <div class="page">
-      <header class="page-header">
-        <h1 class="page-title">Gestión de Usuarios</h1>
-        <a routerLink="/admin/users/new" class="btn-primary">+ Nuevo usuario</a>
-      </header>
-      <div class="table-wrap glass">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Email</th>
-              <th>Rol</th>
-              <th>Estado</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (u of users(); track u.id) {
-              <tr>
-                <td>{{ u.nombre }}</td>
-                <td>{{ u.email }}</td>
-                <td>{{ u.rol }}</td>
-                <td>
-                  <span
-                    class="badge"
-                    [class.badge--active]="u.activo"
-                    [class.badge--inactive]="!u.activo"
-                    >{{ u.activo ? 'Activo' : 'Inactivo' }}</span
-                  >
-                </td>
-                <td><a [routerLink]="['/admin/users', u.id, 'edit']" class="link">Editar</a></td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </div>
-  `,
-  styles: `
-    /* .page layout handled globally in styles.css */
-    .page-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .page-title {
-      font-size: 1.375rem;
-      font-weight: 700;
-      color: oklch(95% 0.02 270);
-      margin: 0;
-    }
-    .btn-primary {
-      background: var(--brand-primary);
-      color: white;
-      border: none;
-      border-radius: 0.625rem;
-      padding: 0.5rem 1.25rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-      text-decoration: none;
-    }
-    .table-wrap {
-      border-radius: 1rem;
-      overflow: hidden;
-    }
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.875rem;
-    }
-    .data-table th {
-      text-align: left;
-      padding: 0.875rem 1rem;
-      color: oklch(65% 0.04 270);
-      font-weight: 600;
-      border-bottom: 1px solid var(--glass-border);
-    }
-    .data-table td {
-      padding: 0.875rem 1rem;
-      color: oklch(88% 0.02 270);
-      border-bottom: 1px solid oklch(100% 0 0 / 6%);
-    }
-    .badge {
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.2rem 0.6rem;
-      border-radius: 9999px;
-    }
-    .badge--active {
-      background: oklch(52% 0.18 150 / 20%);
-      color: oklch(65% 0.18 150);
-    }
-    .badge--inactive {
-      background: oklch(55% 0.02 270 / 20%);
-      color: oklch(65% 0.02 270);
-    }
-    .link {
-      color: var(--brand-primary);
-      text-decoration: none;
-      font-weight: 500;
-    }
-  `,
+  templateUrl: './usuarios.html',
+  styleUrl: './usuarios.css',
 })
 export class Usuarios {
   private svc = inject(UsersService);
+
   users = this.svc.users;
+
+  busqueda = signal('');
+
+  /* Invite form */
+  invNombre = signal('');
+  invEmail = signal('');
+  invRol = signal<UserRole>('agente');
+  invitado = signal(false);
+
+  /* ── Computeds ─────────────────────────────────────────────────────── */
+  filteredUsers = computed(() => {
+    const q = this.busqueda().toLowerCase().trim();
+    if (!q) return this.users();
+    return this.users().filter(
+      (u) => u.nombre.toLowerCase().includes(q) || u.email.toLowerCase().includes(q),
+    );
+  });
+
+  admins = computed(() => this.users().filter((u) => u.rol === 'admin'));
+  supervisores = computed(() => this.users().filter((u) => u.rol === 'supervisor'));
+  agentes = computed(() => this.users().filter((u) => u.rol === 'agente'));
+
+  /* ── Helpers ───────────────────────────────────────────────────────── */
+  rolLabel(rol: UserRole): string {
+    const map: Record<UserRole, string> = {
+      admin: 'Administrador',
+      supervisor: 'Supervisor',
+      agente: 'Agente',
+    };
+    return map[rol];
+  }
+
+  labelAcceso(iso: string | undefined): string {
+    if (!iso) return 'Nunca';
+    const d = new Date(iso);
+    const now = new Date();
+    const diffMs = now.getTime() - d.getTime();
+    const diffH = Math.floor(diffMs / 3_600_000);
+    if (diffH < 1) return 'Hace menos de 1h';
+    if (diffH < 24) return `Hace ${diffH}h`;
+    const diffD = Math.floor(diffH / 24);
+    if (diffD === 1) return 'Ayer';
+    if (diffD < 7) return `Hace ${diffD} días`;
+    return d.toLocaleDateString('es-BO', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  invitar() {
+    if (!this.invNombre().trim() || !this.invEmail().trim()) return;
+    this.svc.create({
+      nombre: this.invNombre().trim(),
+      email: this.invEmail().trim(),
+      rol: this.invRol(),
+      activo: true,
+      avatar: this.invNombre()
+        .trim()
+        .split(' ')
+        .slice(0, 2)
+        .map((p) => p[0]?.toUpperCase() ?? '')
+        .join(''),
+    });
+    this.invNombre.set('');
+    this.invEmail.set('');
+    this.invRol.set('agente');
+    this.invitado.set(true);
+    setTimeout(() => this.invitado.set(false), 3000);
+  }
 }

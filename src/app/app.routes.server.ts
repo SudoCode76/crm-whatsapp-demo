@@ -12,6 +12,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'clients/:id/edit', renderMode: RenderMode.Server },
   { path: 'payments/:id', renderMode: RenderMode.Server },
   { path: 'admin/users/:id/edit', renderMode: RenderMode.Server },
+  { path: 'settings/users', renderMode: RenderMode.Client },
 
   // Resto de páginas estáticas — prerenderizadas
   { path: '**', renderMode: RenderMode.Prerender },

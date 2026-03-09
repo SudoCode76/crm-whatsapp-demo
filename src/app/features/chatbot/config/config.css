@@ -1,102 +1,422 @@
-/* .page layout handled globally in styles.css */
-.page-title {
+/* ── Page wrapper ──────────────────────────────────────────────────────── */
+.bc-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────── */
+.bc-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.bc-title {
   font-size: 1.375rem;
   font-weight: 700;
-  color: oklch(95% 0.02 270);
-  margin: 0 0 1.5rem;
+  color: oklch(15% 0.03 270);
+  margin: 0;
 }
-.config-card {
-  border-radius: 1rem;
+
+.bc-subtitle {
+  font-size: 0.875rem;
+  color: oklch(48% 0.05 270);
+  margin: 0;
+}
+
+/* ── Cards ─────────────────────────────────────────────────────────────── */
+.bc-card {
+  border-radius: 1.25rem;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  max-width: 560px;
 }
-.field {
+
+.bc-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.bc-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: oklch(15% 0.03 270);
+  margin: 0;
+}
+
+/* ── Form grid ─────────────────────────────────────────────────────────── */
+.bc-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.bc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.bc-field--full {
+  grid-column: 1 / -1;
+}
+
+.bc-label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: oklch(42% 0.05 270);
+}
+
+.bc-input,
+.bc-select,
+.bc-textarea {
+  background: oklch(100% 0 0 / 65%);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.625rem;
+  padding: 0.625rem 0.875rem;
+  color: oklch(15% 0.02 270);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: inherit;
+}
+
+.bc-input::placeholder,
+.bc-textarea::placeholder {
+  color: oklch(56% 0.04 270);
+}
+
+.bc-input:focus,
+.bc-select:focus,
+.bc-textarea:focus {
+  border-color: var(--brand-primary);
+}
+
+.bc-textarea {
+  resize: vertical;
+}
+
+.bc-textarea--sm {
+  font-size: 0.8125rem;
+}
+
+.bc-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+  cursor: pointer;
+}
+
+.bc-select--sm {
+  padding: 0.375rem 2rem 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  width: auto;
+}
+
+/* ── Toggle (iOS style) ────────────────────────────────────────────────── */
+.bc-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bc-toggle-label {
+  font-size: 0.875rem;
+  color: oklch(28% 0.03 270);
+}
+
+.bc-toggle {
+  width: 3rem;
+  height: 1.625rem;
+  border-radius: 9999px;
+  background: oklch(100% 0 0 / 15%);
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  position: relative;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.bc-toggle--on {
+  background: var(--brand-primary);
+  border-color: transparent;
+}
+
+.bc-toggle-thumb {
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 30%);
+  transition: transform 0.2s;
+}
+
+.bc-toggle--on .bc-toggle-thumb {
+  transform: translateX(1.375rem);
+}
+
+/* ── Schedule ──────────────────────────────────────────────────────────── */
+.bc-schedule {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
-.field label {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: oklch(75% 0.04 270);
-}
-.toggle-row {
+
+.bc-day-row {
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: oklch(88% 0.02 270);
-  font-size: 0.9rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 0.625rem;
+  background: oklch(100% 0 0 / 5%);
+  transition: background 0.15s;
 }
-.toggle {
-  background: oklch(100% 0 0 / 12%);
-  border: 1px solid var(--glass-border);
-  border-radius: 9999px;
-  width: 3rem;
-  height: 1.625rem;
-  cursor: pointer;
-  position: relative;
-  transition: background 0.2s;
-}
-.toggle--on {
-  background: var(--brand-primary);
-  border-color: transparent;
-}
-.toggle-thumb {
-  position: absolute;
-  top: 0.1875rem;
-  left: 0.1875rem;
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 50%;
-  background: white;
-  transition: transform 0.2s;
-}
-.toggle--on .toggle-thumb {
-  transform: translateX(1.375rem);
-}
-.radio-group {
-  display: flex;
-  gap: 0.5rem;
-}
-.radio-btn {
+
+.bc-day-row:hover {
   background: oklch(100% 0 0 / 8%);
+}
+
+.bc-day-row--disabled {
+  opacity: 0.5;
+}
+
+.bc-day-check {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  width: 7rem;
+}
+
+.bc-day-check input[type='checkbox'] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--brand-primary);
+  cursor: pointer;
+}
+
+.bc-day-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: oklch(20% 0.03 270);
+}
+
+.bc-time-range {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.bc-time-input {
+  background: oklch(100% 0 0 / 65%);
   border: 1px solid var(--glass-border);
   border-radius: 0.5rem;
-  padding: 0.375rem 1rem;
+  padding: 0.375rem 0.625rem;
+  color: oklch(15% 0.02 270);
   font-size: 0.8125rem;
-  color: oklch(75% 0.04 270);
-  cursor: pointer;
-  text-transform: capitalize;
-  transition: all 0.15s;
-}
-.radio-btn--active {
-  background: var(--brand-primary);
-  color: white;
-  border-color: transparent;
-}
-.textarea {
-  background: oklch(100% 0 0 / 8%);
-  border: 1px solid var(--glass-border);
-  border-radius: 0.625rem;
-  padding: 0.625rem 0.875rem;
-  color: oklch(93% 0.01 270);
-  font-size: 0.875rem;
-  resize: vertical;
   outline: none;
+  width: 6.5rem;
+  font-family: inherit;
+  cursor: pointer;
 }
-.textarea:focus {
+
+.bc-time-input:focus {
   border-color: var(--brand-primary);
 }
-.btn-primary {
+
+.bc-time-sep {
+  color: oklch(48% 0.05 270);
+  font-size: 0.875rem;
+}
+
+.bc-day-off {
+  font-size: 0.8125rem;
+  color: oklch(52% 0.04 270);
+  font-style: italic;
+}
+
+/* ── Toggle items list ─────────────────────────────────────────────────── */
+.bc-toggles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.bc-toggle-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid oklch(100% 0 0 / 8%);
+}
+
+.bc-toggle-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.bc-toggle-item--select {
+  align-items: flex-start;
+}
+
+.bc-toggle-item--select .bc-select--sm {
+  margin-top: 0.125rem;
+}
+
+.bc-toggle-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.bc-toggle-item-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: oklch(20% 0.03 270);
+}
+
+.bc-toggle-item-desc {
+  font-size: 0.8rem;
+  color: oklch(48% 0.05 270);
+  line-height: 1.4;
+}
+
+/* ── Quick replies grid ────────────────────────────────────────────────── */
+.bc-replies-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.bc-reply-card {
+  border-radius: 0.875rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bc-reply-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bc-reply-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: oklch(20% 0.03 270);
+}
+
+.bc-reply-vars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.bc-var-chip {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  background: oklch(65% 0.22 270 / 18%);
+  color: oklch(80% 0.18 270);
+  font-family: 'Courier New', monospace;
+}
+
+/* ── Actions ───────────────────────────────────────────────────────────── */
+.bc-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+.bc-saved-msg {
+  font-size: 0.875rem;
+  color: oklch(65% 0.18 150);
+  margin: 0 auto 0 0;
+}
+
+.bc-saved-msg::before {
+  content: '✓ ';
+  font-weight: 700;
+}
+
+.bc-btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   background: var(--brand-primary);
   color: white;
   border: none;
   border-radius: 0.75rem;
-  padding: 0.75rem;
-  font-size: 0.9375rem;
+  padding: 0.625rem 1.375rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.15s;
+}
+
+.bc-btn-primary:hover {
+  background: oklch(70% 0.22 270);
+}
+
+.bc-btn-secondary {
+  background: oklch(100% 0 0 / 50%);
+  color: oklch(28% 0.03 270);
+  border: 1px solid var(--glass-border);
+  border-radius: 0.75rem;
+  padding: 0.625rem 1.375rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.bc-btn-secondary:hover {
+  background: oklch(100% 0 0 / 70%);
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (width <= 900px) {
+  .bc-replies-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width <= 600px) {
+  .bc-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bc-field--full {
+    grid-column: 1;
+  }
+
+  .bc-day-check {
+    width: 6rem;
+  }
 }

@@ -69,7 +69,7 @@ export class Shell implements OnDestroy {
       id: 'nav-config',
       label: 'Configuración',
       icon: 'settings',
-      route: '/admin/company',
+      route: '/settings',
       badge: 0,
     },
   ]);

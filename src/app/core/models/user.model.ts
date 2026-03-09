@@ -8,4 +8,5 @@ export interface User {
   activo: boolean;
   avatar?: string;
   creadoEn: string;
+  ultimoAcceso?: string;
 }
