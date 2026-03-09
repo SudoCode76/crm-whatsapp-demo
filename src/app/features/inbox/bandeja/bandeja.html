@@ -23,25 +23,43 @@
     </div>
   </header>
 
-  <ul class="conv-list">
-    @for (conv of lista; track conv.id) {
-      <li>
-        <a [routerLink]="['/inbox', conv.id]" class="conv-item glass">
-          <span class="conv-avatar">{{ conv.clienteNombre[0] }}</span>
-          <div class="conv-info">
-            <span class="conv-name">{{ conv.clienteNombre }}</span>
-            <span class="conv-last">{{ conv.ultimoMensaje }}</span>
-          </div>
-          <div class="conv-meta">
-            <span class="conv-status conv-status--{{ conv.status }}">{{ conv.status }}</span>
-            @if (conv.mensajesNoLeidos > 0) {
-              <span class="conv-badge">{{ conv.mensajesNoLeidos }}</span>
-            }
-          </div>
-        </a>
-      </li>
-    } @empty {
-      <li class="empty-state">No hay conversaciones en esta categoría.</li>
-    }
-  </ul>
+  <div class="inbox-shell">
+    <!-- LEFT: conversations list -->
+    <aside class="inbox-list">
+      <div class="inbox-list-header">
+        <div class="search-wrap">
+          <span class="material-symbols-outlined">search</span>
+          <input placeholder="Buscar chats, clientes o QRs..." />
+        </div>
+        <button class="btn-new">+ Nuevo</button>
+      </div>
+
+      <ul class="conv-list">
+        @for (conv of lista; track conv.id) {
+          <li>
+            <a [routerLink]="['/inbox', conv.id]" class="conv-item glass">
+              <span class="conv-avatar">{{ conv.clienteNombre[0] }}</span>
+              <div class="conv-info">
+                <span class="conv-name">{{ conv.clienteNombre }}</span>
+                <span class="conv-last">{{ conv.ultimoMensaje }}</span>
+              </div>
+              <div class="conv-meta">
+                <span class="conv-status conv-status--{{ conv.status }}">{{ conv.status }}</span>
+                @if (conv.mensajesNoLeidos > 0) {
+                  <span class="conv-badge">{{ conv.mensajesNoLeidos }}</span>
+                }
+              </div>
+            </a>
+          </li>
+        } @empty {
+          <li class="empty-state">No hay conversaciones en esta categoría.</li>
+        }
+      </ul>
+    </aside>
+
+    <!-- RIGHT: panel where the conversation child route will render -->
+    <section class="inbox-panel">
+      <router-outlet />
+    </section>
+  </div>
 </div>

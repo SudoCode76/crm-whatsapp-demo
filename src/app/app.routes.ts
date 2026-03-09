@@ -33,15 +33,18 @@ export const routes: Routes = [
         path: 'inicio',
         loadComponent: () => import('./features/home/home').then((m) => m.Home),
       },
-      // Inbox
+      // Inbox (parent route with nested conversation child so the conversation
+      // renders inside the bandeja panel without navigating away)
       {
         path: 'inbox',
         loadComponent: () => import('./features/inbox/bandeja/bandeja').then((m) => m.Bandeja),
-      },
-      {
-        path: 'inbox/:id',
-        loadComponent: () =>
-          import('./features/inbox/conversacion/conversacion').then((m) => m.Conversacion),
+        children: [
+          {
+            path: ':id',
+            loadComponent: () =>
+              import('./features/inbox/conversacion/conversacion').then((m) => m.Conversacion),
+          },
+        ],
       },
 
       // Clients

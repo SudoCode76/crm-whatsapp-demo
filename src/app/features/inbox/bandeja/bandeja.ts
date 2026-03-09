@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { InboxService } from '../../../core/services/inbox.service';
 import { ConversationStatus } from '../../../core/models/conversation.model';
 
 @Component({
   selector: 'app-bandeja',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './bandeja.html',
   styleUrl: './bandeja.css',
 })

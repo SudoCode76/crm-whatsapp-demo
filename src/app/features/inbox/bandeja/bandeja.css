@@ -123,3 +123,86 @@
   padding: 3rem;
   color: oklch(60% 0.04 270);
 }
+
+/* Layout shell: left list + right panel */
+.inbox-shell {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* Left list fixed */
+.inbox-list {
+  width: 380px;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow: hidden;
+}
+
+.inbox-list-header {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.search-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: oklch(100% 0 0 / 8%);
+  border-radius: 9999px;
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--glass-border);
+}
+.search-wrap input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+/* make the list scrollable while keeping header fixed */
+.inbox-list .conv-list {
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  min-height: 0;
+}
+
+/* Right panel flexible and scrollable */
+.inbox-panel {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Ensure child inserted by router fills panel; exclude router-outlet itself */
+.inbox-panel > *:not(router-outlet) {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Let router-outlet be transparent so its rendered component participates in layout */
+.inbox-panel > router-outlet {
+  display: contents;
+}
+
+@media (max-width: 900px) {
+  .inbox-shell {
+    flex-direction: column;
+  }
+  .inbox-list {
+    width: 100%;
+    min-width: 0;
+  }
+  .inbox-list .conv-list {
+    max-height: calc(100vh - 320px);
+  }
+}

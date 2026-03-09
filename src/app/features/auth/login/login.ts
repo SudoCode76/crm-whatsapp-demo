@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -12,6 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class Login {
   private auth = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   email = signal('carlos@empresa.gt');
   password = signal('demo1234');
@@ -32,7 +33,8 @@ export class Login {
     const ok = this.auth.login(this.email(), this.password());
     this.loading.set(false);
     if (ok) {
-      this.router.navigate(['/reports/dashboard']);
+      const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+      this.router.navigateByUrl(returnUrl ?? '/inicio');
     } else {
       this.error.set('Credenciales incorrectas. Intenta de nuevo.');
     }
