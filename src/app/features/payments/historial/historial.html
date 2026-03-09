@@ -1,34 +1,257 @@
-<div class="page">
-  <header class="page-header">
-    <h1 class="page-title">Historial de Cobros QR</h1>
-    <a routerLink="/payments/new" class="btn-primary">+ Generar QR</a>
-  </header>
-  <div class="table-wrap glass">
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Cliente</th>
-          <th>Descripción</th>
-          <th>Monto</th>
-          <th>Estado</th>
-          <th>Fecha</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (p of payments(); track p.id) {
-          <tr>
-            <td>{{ p.clienteNombre }}</td>
-            <td>{{ p.descripcion }}</td>
-            <td>Q {{ p.monto.toFixed(2) }}</td>
-            <td>
-              <span class="badge badge--{{ p.status }}">{{ p.status }}</span>
-            </td>
-            <td>{{ p.creadoEn | date: 'dd/MM/yyyy' }}</td>
-            <td><a [routerLink]="['/payments', p.id]" class="link">Ver</a></td>
-          </tr>
+<div class="hp-page">
+  <!-- ── Stats row ──────────────────────────────────────────────────────── -->
+  <div class="hp-stats">
+    <div class="hp-stat-card">
+      <div class="hp-stat-icon hp-stat-icon--blue">
+        <span class="material-symbols-outlined">payments</span>
+      </div>
+      <div class="hp-stat-body">
+        <p class="hp-stat-label">Cobros hoy</p>
+        <p class="hp-stat-value">Bs. {{ cobrosHoy() | number: '1.0-0' }}</p>
+        <p class="hp-stat-trend hp-stat-trend--up">
+          <span class="material-symbols-outlined">trending_up</span>Total del día
+        </p>
+      </div>
+    </div>
+
+    <div class="hp-stat-card">
+      <div class="hp-stat-icon hp-stat-icon--green">
+        <span class="material-symbols-outlined">qr_code_scanner</span>
+      </div>
+      <div class="hp-stat-body">
+        <p class="hp-stat-label">QRs pendientes</p>
+        <p class="hp-stat-value">{{ qrsActivos() }}</p>
+        <p class="hp-stat-trend hp-stat-trend--neutral">
+          <span class="material-symbols-outlined">schedule</span>Esperando pago
+        </p>
+      </div>
+    </div>
+
+    <div class="hp-stat-card">
+      <div class="hp-stat-icon hp-stat-icon--orange">
+        <span class="material-symbols-outlined">pending_actions</span>
+      </div>
+      <div class="hp-stat-body">
+        <p class="hp-stat-label">Por cobrar</p>
+        <p class="hp-stat-value">Bs. {{ montoPendiente() | number: '1.0-0' }}</p>
+        <p class="hp-stat-trend hp-stat-trend--warn">
+          <span class="material-symbols-outlined">trending_flat</span>En espera
+        </p>
+      </div>
+    </div>
+
+    <div class="hp-stat-card">
+      <div class="hp-stat-icon hp-stat-icon--purple">
+        <span class="material-symbols-outlined">account_balance_wallet</span>
+      </div>
+      <div class="hp-stat-body">
+        <p class="hp-stat-label">Total mes</p>
+        <p class="hp-stat-value">Bs. {{ totalMes() | number: '1.0-0' }}</p>
+        <p class="hp-stat-trend hp-stat-trend--up">
+          <span class="material-symbols-outlined">trending_up</span>Este mes
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main content: table + sidebar ────────────────────────────────────── -->
+  <div class="hp-content">
+    <!-- Left: historial table -->
+    <div class="hp-table-col">
+      <div class="hp-table-card">
+        <!-- Card header: title + tab filter -->
+        <div class="hp-table-header">
+          <h3 class="hp-table-title">Historial de QRs</h3>
+          <div class="hp-tab-group">
+            @for (t of tabs; track t.key) {
+              <button
+                class="hp-tab-btn"
+                [class.hp-tab-btn--active]="tab() === t.key"
+                (click)="tab.set(t.key)"
+              >
+                {{ t.label }}
+              </button>
+            }
+          </div>
+          <a routerLink="/payments/new" class="hp-btn-gen">
+            <span class="material-symbols-outlined">qr_code</span>
+            Generar QR
+          </a>
+        </div>
+
+        <!-- Table -->
+        <div class="hp-table-scroll">
+          <table class="hp-table">
+            <thead>
+              <tr class="hp-thead-row">
+                <th class="hp-th">Cliente / Concepto</th>
+                <th class="hp-th">Monto</th>
+                <th class="hp-th">Estado</th>
+                <th class="hp-th">Fecha / Hora</th>
+                <th class="hp-th hp-th--right">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of filtrados(); track p.id) {
+                <tr class="hp-row">
+                  <td class="hp-td">
+                    <a [routerLink]="['/payments', p.id]" class="hp-client-link">
+                      <span class="hp-client-name">{{ p.clienteNombre }}</span>
+                      <span class="hp-client-desc">{{ p.descripcion }}</span>
+                    </a>
+                  </td>
+                  <td class="hp-td hp-td--monto">Bs. {{ p.monto | number: '1.2-2' }}</td>
+                  <td class="hp-td">
+                    @switch (p.status) {
+                      @case ('pagado') {
+                        <span class="hp-badge hp-badge--pagado">
+                          <span class="material-symbols-outlined">check_circle</span>Pagado
+                        </span>
+                      }
+                      @case ('pendiente') {
+                        <span class="hp-badge hp-badge--pendiente">
+                          <span class="material-symbols-outlined">schedule</span>Pendiente
+                        </span>
+                      }
+                      @case ('expirado') {
+                        <span class="hp-badge hp-badge--expirado">
+                          <span class="material-symbols-outlined">error</span>Expirado
+                        </span>
+                      }
+                    }
+                  </td>
+                  <td class="hp-td hp-td--fecha">{{ labelFecha(p.creadoEn) }}</td>
+                  <td class="hp-td hp-td--actions">
+                    <div class="hp-actions">
+                      @if (p.status === 'pendiente') {
+                        <button
+                          class="hp-action-btn hp-action-btn--wa"
+                          title="Reenviar por WhatsApp"
+                        >
+                          <svg viewBox="0 0 24 24" fill="currentColor" class="hp-wa-icon">
+                            <path
+                              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+                            />
+                          </svg>
+                        </button>
+                      }
+                      <a
+                        [routerLink]="['/payments', p.id]"
+                        class="hp-action-btn"
+                        title="Ver detalle"
+                      >
+                        <span class="material-symbols-outlined">open_in_new</span>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="5" class="hp-empty">
+                    <span class="material-symbols-outlined hp-empty-icon">receipt_long</span>
+                    <p>Sin cobros en esta categoría</p>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right sidebar: quick form + por vencer -->
+    <div class="hp-sidebar">
+      <!-- Quick QR form -->
+      <div class="hp-form-card">
+        <h3 class="hp-form-title">
+          <span class="material-symbols-outlined">bolt</span>
+          Generar QR rápido
+        </h3>
+
+        <div class="hp-field">
+          <label class="hp-label">Cliente</label>
+          <select class="hp-select" [value]="qClienteId()" (change)="onClienteChange($event)">
+            <option value="">Seleccionar cliente…</option>
+            @for (c of clientes(); track c.id) {
+              <option [value]="c.id">{{ c.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="hp-field-row">
+          <div class="hp-field">
+            <label class="hp-label">Monto (Bs.)</label>
+            <input
+              class="hp-input hp-input--bold"
+              type="number"
+              placeholder="0.00"
+              [value]="qMonto()"
+              (input)="onMontoChange($event)"
+            />
+          </div>
+          <div class="hp-field">
+            <label class="hp-label">Validez</label>
+            <select class="hp-select" [value]="qValidezHoras()" (change)="onValidezChange($event)">
+              @for (v of validezOpts; track v.hours) {
+                <option [value]="v.hours">{{ v.label }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="hp-field">
+          <label class="hp-label">Concepto</label>
+          <input
+            class="hp-input"
+            type="text"
+            placeholder="Detalle del cobro…"
+            [value]="qConcepto()"
+            (input)="onConceptoChange($event)"
+          />
+        </div>
+
+        @if (qGenerado()) {
+          <div class="hp-success-msg">
+            <span class="material-symbols-outlined">check_circle</span>
+            QR generado y enviado
+          </div>
+        } @else {
+          <button class="hp-btn-wa" (click)="generarRapido()">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="hp-wa-icon-lg">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+              />
+            </svg>
+            Generar y Enviar por WhatsApp
+          </button>
         }
-      </tbody>
-    </table>
+      </div>
+
+      <!-- Por vencer pronto -->
+      <div class="hp-vencer-card">
+        <div class="hp-vencer-header">
+          <span class="material-symbols-outlined hp-vencer-icon">timer</span>
+          <h3 class="hp-vencer-title">Por vencer pronto</h3>
+        </div>
+
+        <div class="hp-vencer-list">
+          @for (p of porVencer(); track p.id) {
+            <a [routerLink]="['/payments', p.id]" class="hp-vencer-item">
+              <div class="hp-vencer-avatar">{{ iniciales(p.clienteNombre) }}</div>
+              <div class="hp-vencer-info">
+                <span class="hp-vencer-name">{{ p.clienteNombre }}</span>
+                <span class="hp-vencer-time">{{ horasParaVencer(p.expiraEn) }}</span>
+              </div>
+              <span class="hp-vencer-monto">Bs. {{ p.monto | number: '1.0-0' }}</span>
+            </a>
+          } @empty {
+            <div class="hp-vencer-empty">
+              <span class="material-symbols-outlined">check_circle</span>
+              Sin QRs por vencer
+            </div>
+          }
+        </div>
+      </div>
+    </div>
   </div>
 </div>

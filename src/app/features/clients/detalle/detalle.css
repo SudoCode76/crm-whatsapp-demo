@@ -1,112 +1,605 @@
-/* .page layout handled globally in styles.css */
-.page-header {
+/* ── Page root ───────────────────────────────────────────────────────────── */
+.cd-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ── Top bar ─────────────────────────────────────────────────────────────── */
+.cd-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.cd-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.cd-back:hover {
+  color: #0a85ff;
+}
+.cd-back .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.cd-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.cd-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+  text-decoration: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+  transition: all 0.15s;
+}
+.cd-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.55);
+  transform: translateY(-1px);
+}
+.cd-btn-secondary .material-symbols-outlined {
+  font-size: 17px;
+}
+
+.cd-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1.125rem;
+  background: linear-gradient(to right, #0a85ff, #3b82f6);
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(10, 133, 255, 0.3);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.cd-btn-primary:hover {
+  background: linear-gradient(to right, #0070e0, #2563eb);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(10, 133, 255, 0.38);
+}
+.cd-btn-primary .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* ── Hero card ───────────────────────────────────────────────────────────── */
+.cd-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
+  flex-shrink: 0;
+}
+
+/* Large avatar */
+.cd-avatar-lg {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Avatar gradient backgrounds — same palette as lista */
+.cd-avatar-lg.from-blue-200 {
+  background: linear-gradient(135deg, #bfdbfe, #93c5fd);
+  color: #1d4ed8;
+}
+.cd-avatar-lg.from-emerald-200 {
+  background: linear-gradient(135deg, #a7f3d0, #6ee7b7);
+  color: #047857;
+}
+.cd-avatar-lg.from-purple-200 {
+  background: linear-gradient(135deg, #ddd6fe, #c4b5fd);
+  color: #6d28d9;
+}
+.cd-avatar-lg.from-pink-200 {
+  background: linear-gradient(135deg, #fbcfe8, #f9a8d4);
+  color: #be185d;
+}
+.cd-avatar-lg.from-orange-200 {
+  background: linear-gradient(135deg, #fed7aa, #fdba74);
+  color: #c2410c;
+}
+.cd-avatar-lg.from-teal-200 {
+  background: linear-gradient(135deg, #99f6e4, #5eead4);
+  color: #0f766e;
+}
+.cd-avatar-lg.from-slate-200 {
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+  color: #334155;
+}
+.cd-avatar-lg.from-rose-200 {
+  background: linear-gradient(135deg, #fecdd3, #fda4af);
+  color: #be123c;
+}
+
+/* Hero info */
+.cd-hero-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cd-hero-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+}
+
+.cd-name {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.cd-empresa {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0.2rem 0 0.625rem;
+}
+
+.cd-hero-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.cd-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #475569;
+}
+.cd-meta-chip .material-symbols-outlined {
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+/* Finance mini-cards */
+.cd-hero-finance {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.cd-fin-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.625rem 1rem;
+  border-radius: 0.75rem;
+  min-width: 148px;
+}
+
+.cd-fin-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+.cd-fin-value {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.cd-fin-card--deuda {
+  background: rgba(254, 215, 170, 0.5);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: #92400e;
+}
+
+.cd-fin-card--pagado {
+  background: rgba(209, 250, 229, 0.5);
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  color: #065f46;
+}
+
+.cd-fin-card--pendiente {
+  background: rgba(219, 234, 254, 0.5);
+  border: 1px solid rgba(147, 197, 253, 0.4);
+  color: #1e40af;
+}
+
+/* ── Badges (hero status) ────────────────────────────────────────────────── */
+.cd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.cd-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.cd-badge--activo {
+  background: rgba(209, 250, 229, 0.8);
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+.cd-badge--activo .cd-badge-dot {
+  background: #10b981;
+}
+
+.cd-badge--moroso {
+  background: rgba(254, 215, 170, 0.8);
+  border: 1px solid #fcd34d;
+  color: #92400e;
+}
+.cd-badge--moroso .cd-badge-dot {
+  background: #f97316;
+}
+
+.cd-badge--inactivo {
+  background: rgba(241, 245, 249, 0.8);
+  border: 1px solid #cbd5e1;
+  color: #475569;
+}
+.cd-badge--inactivo .cd-badge-dot {
+  background: #94a3b8;
+}
+
+/* ── Main grid ───────────────────────────────────────────────────────────── */
+.cd-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+}
+
+/* ── Cards ───────────────────────────────────────────────────────────────── */
+.cd-card {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 16px rgba(31, 38, 135, 0.04);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.cd-card--datos {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+
+.cd-card--pagos {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.cd-card--convs {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.cd-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.page-title {
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: oklch(95% 0.02 270);
-  margin: 0;
-}
-.btn-secondary {
-  background: oklch(100% 0 0 / 10%);
-  border: 1px solid var(--glass-border);
-  color: oklch(85% 0.04 270);
-  border-radius: 0.625rem;
-  padding: 0.5rem 1.25rem;
-  font-size: 0.875rem;
-  text-decoration: none;
-}
-.detail-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1rem;
-}
-.detail-card {
-  border-radius: 1rem;
-  padding: 1.25rem;
+
+.cd-card-title {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-.card-title {
+  align-items: center;
+  gap: 0.4rem;
   font-size: 0.9375rem;
   font-weight: 600;
-  color: oklch(85% 0.04 270);
+  color: #334155;
   margin: 0;
 }
-.dl {
+.cd-card-title .material-symbols-outlined {
+  font-size: 18px;
+  color: #64748b;
+}
+
+.cd-count-badge {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #475569;
+  padding: 0.1rem 0.5rem;
+}
+
+/* ── Definition list ─────────────────────────────────────────────────────── */
+.cd-dl {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.375rem 0.5rem;
+  grid-template-columns: 1fr 1.25fr;
+  row-gap: 0.625rem;
+  column-gap: 0.5rem;
   font-size: 0.8125rem;
 }
-.dl dt {
-  color: oklch(65% 0.04 270);
+
+.cd-dl dt {
+  color: #94a3b8;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
 }
-.dl dd {
+
+.cd-dl dd {
   margin: 0;
-  color: oklch(88% 0.02 270);
+  color: #334155;
+  font-weight: 500;
 }
-.list-item {
+
+/* Notes */
+.cd-notas {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0.75rem;
+}
+.cd-notas-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.cd-notas-text {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* ── Payment items ───────────────────────────────────────────────────────── */
+.cd-pago-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0.75rem;
+  text-decoration: none;
+  transition:
+    background 0.15s,
+    transform 0.1s;
+}
+.cd-pago-item:hover {
+  background: rgba(255, 255, 255, 0.45);
+  transform: translateX(2px);
+}
+
+.cd-pago-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.cd-pago-desc {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #334155;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.cd-pago-date {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+.cd-pago-right {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid oklch(100% 0 0 / 6%);
-  font-size: 0.8125rem;
-  color: oklch(85% 0.02 270);
+  flex-shrink: 0;
 }
-.list-item--link {
-  text-decoration: none;
+
+.cd-pago-monto {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1e293b;
 }
-.amount {
-  margin-left: auto;
-  font-weight: 600;
-  color: oklch(72% 0.18 195);
-}
-.badge {
+
+/* Payment status badges */
+.cd-pay-badge {
   font-size: 0.7rem;
   font-weight: 600;
   padding: 0.15rem 0.5rem;
   border-radius: 9999px;
+  white-space: nowrap;
 }
-.badge--pagado {
-  background: oklch(52% 0.18 150 / 20%);
-  color: oklch(65% 0.18 150);
+.cd-pay-badge--pagado {
+  background: rgba(209, 250, 229, 0.8);
+  color: #065f46;
 }
-.badge--pendiente {
-  background: oklch(72% 0.18 80 / 20%);
-  color: oklch(72% 0.18 80);
+.cd-pay-badge--pendiente {
+  background: rgba(254, 243, 199, 0.8);
+  color: #92400e;
 }
-.badge--expirado {
-  background: oklch(55% 0.02 270 / 20%);
-  color: oklch(65% 0.02 270);
+.cd-pay-badge--expirado {
+  background: rgba(241, 245, 249, 0.8);
+  color: #475569;
 }
-.badge--activa {
-  background: oklch(52% 0.18 150 / 20%);
-  color: oklch(65% 0.18 150);
+
+/* ── Conversation items ──────────────────────────────────────────────────── */
+.cd-conv-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 0.75rem;
+  text-decoration: none;
+  transition:
+    background 0.15s,
+    transform 0.1s;
 }
-.badge--espera {
-  background: oklch(72% 0.18 80 / 20%);
-  color: oklch(72% 0.18 80);
+.cd-conv-item:hover {
+  background: rgba(255, 255, 255, 0.45);
+  transform: translateX(2px);
 }
-.badge--cerrada {
-  background: oklch(55% 0.02 270 / 20%);
-  color: oklch(65% 0.02 270);
+
+.cd-conv-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
 }
-.badge--bot {
-  background: oklch(65% 0.22 270 / 20%);
-  color: var(--brand-primary);
+
+.cd-conv-msg {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #334155;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
 }
-.empty {
-  color: oklch(60% 0.04 270);
+
+.cd-conv-date {
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+/* Conversation status badges */
+.cd-conv-badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cd-conv-badge--activa {
+  background: rgba(209, 250, 229, 0.8);
+  color: #065f46;
+}
+.cd-conv-badge--espera {
+  background: rgba(254, 243, 199, 0.8);
+  color: #92400e;
+}
+.cd-conv-badge--cerrada {
+  background: rgba(241, 245, 249, 0.8);
+  color: #475569;
+}
+.cd-conv-badge--bot {
+  background: rgba(237, 233, 254, 0.8);
+  color: #5b21b6;
+}
+
+/* ── Empty state ─────────────────────────────────────────────────────────── */
+.cd-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 1.25rem;
+  color: #94a3b8;
   font-size: 0.8125rem;
 }
-.not-found {
-  padding: 3rem;
-  text-align: center;
-  color: oklch(65% 0.04 270);
+.cd-empty p {
+  margin: 0;
+}
+.cd-empty-icon {
+  font-size: 2rem;
+  opacity: 0.4;
+}
+
+/* ── Not found ───────────────────────────────────────────────────────────── */
+.cd-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 4rem 2rem;
+  color: #64748b;
+  font-size: 0.9375rem;
+}
+.cd-not-found p {
+  margin: 0;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cd-hero {
+    flex-direction: column;
+  }
+  .cd-hero-finance {
+    flex-direction: row;
+    width: 100%;
+  }
+  .cd-fin-card {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .cd-grid {
+    grid-template-columns: 1fr;
+  }
+  .cd-card--datos,
+  .cd-card--pagos,
+  .cd-card--convs {
+    grid-column: 1;
+    grid-row: auto;
+  }
 }

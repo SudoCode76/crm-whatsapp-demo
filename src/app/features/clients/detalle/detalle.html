@@ -1,55 +1,182 @@
-<div class="page">
+<div class="cd-page">
   @if (client(); as c) {
-    <header class="page-header">
-      <h1 class="page-title">{{ c.nombre }}</h1>
-      <a [routerLink]="['/clients', c.id, 'edit']" class="btn-secondary">Editar</a>
-    </header>
-
-    <div class="detail-grid">
-      <div class="detail-card glass">
-        <h2 class="card-title">Datos del cliente</h2>
-        <dl class="dl">
-          <dt>Teléfono</dt>
-          <dd>{{ c.telefono }}</dd>
-          <dt>Email</dt>
-          <dd>{{ c.email ?? '—' }}</dd>
-          <dt>Empresa</dt>
-          <dd>{{ c.empresa ?? '—' }}</dd>
-          <dt>NIT</dt>
-          <dd>{{ c.nit ?? '—' }}</dd>
-          <dt>Dirección</dt>
-          <dd>{{ c.direccion ?? '—' }}</dd>
-          <dt>Estado</dt>
-          <dd>{{ c.activo ? 'Activo' : 'Inactivo' }}</dd>
-        </dl>
-      </div>
-
-      <div class="detail-card glass">
-        <h2 class="card-title">Historial de cobros ({{ pagos().length }})</h2>
-        @for (p of pagos(); track p.id) {
-          <div class="list-item">
-            <span>{{ p.descripcion }}</span>
-            <span class="amount">Q {{ p.monto.toFixed(2) }}</span>
-            <span class="badge badge--{{ p.status }}">{{ p.status }}</span>
-          </div>
-        } @empty {
-          <p class="empty">Sin cobros registrados.</p>
-        }
-      </div>
-
-      <div class="detail-card glass">
-        <h2 class="card-title">Conversaciones ({{ conversaciones().length }})</h2>
-        @for (conv of conversaciones(); track conv.id) {
-          <a [routerLink]="['/inbox', conv.id]" class="list-item list-item--link">
-            <span>{{ conv.ultimoMensaje }}</span>
-            <span class="badge badge--{{ conv.status }}">{{ conv.status }}</span>
-          </a>
-        } @empty {
-          <p class="empty">Sin conversaciones.</p>
-        }
+    <!-- ── Back + actions bar ───────────────────────────────────────────── -->
+    <div class="cd-topbar">
+      <a routerLink="/clients" class="cd-back">
+        <span class="material-symbols-outlined">arrow_back</span>
+        Clientes
+      </a>
+      <div class="cd-topbar-actions">
+        <a [routerLink]="['/clients', c.id, 'edit']" class="cd-btn-secondary">
+          <span class="material-symbols-outlined">edit</span>
+          Editar
+        </a>
+        <a routerLink="/payments/new" class="cd-btn-primary">
+          <span class="material-symbols-outlined">qr_code_2</span>
+          Generar cobro
+        </a>
       </div>
     </div>
+
+    <!-- ── Hero card ────────────────────────────────────────────────────── -->
+    <div class="cd-hero">
+      <div class="cd-avatar-lg" [class]="'cd-avatar-lg ' + paletteClasses(c.nombre)[0]">
+        {{ iniciales(c.nombre) }}
+      </div>
+
+      <div class="cd-hero-info">
+        <div class="cd-hero-name-row">
+          <h1 class="cd-name">{{ c.nombre }}</h1>
+          @if (esMoroso(c)) {
+            <span class="cd-badge cd-badge--moroso">
+              <span class="cd-badge-dot"></span>Moroso
+            </span>
+          } @else if (c.activo) {
+            <span class="cd-badge cd-badge--activo">
+              <span class="cd-badge-dot"></span>Activo
+            </span>
+          } @else {
+            <span class="cd-badge cd-badge--inactivo">
+              <span class="cd-badge-dot"></span>Inactivo
+            </span>
+          }
+        </div>
+        @if (c.empresa) {
+          <p class="cd-empresa">{{ c.empresa }}</p>
+        }
+        <div class="cd-hero-meta">
+          @if (c.telefono) {
+            <span class="cd-meta-chip">
+              <span class="material-symbols-outlined">phone</span>{{ c.telefono }}
+            </span>
+          }
+          @if (c.email) {
+            <span class="cd-meta-chip">
+              <span class="material-symbols-outlined">mail</span>{{ c.email }}
+            </span>
+          }
+          @if (c.ultimaInteraccion) {
+            <span class="cd-meta-chip">
+              <span class="material-symbols-outlined">schedule</span>
+              Última interacción: {{ labelFecha(c.ultimaInteraccion) }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- Finance summary mini-cards -->
+      <div class="cd-hero-finance">
+        <div class="cd-fin-card cd-fin-card--deuda">
+          <span class="cd-fin-label">Deuda pendiente</span>
+          <span class="cd-fin-value">Bs. {{ c.deudaTotal ?? 0 | number: '1.2-2' }}</span>
+        </div>
+        <div class="cd-fin-card cd-fin-card--pagado">
+          <span class="cd-fin-label">Total pagado</span>
+          <span class="cd-fin-value">Bs. {{ totalPagado() | number: '1.2-2' }}</span>
+        </div>
+        <div class="cd-fin-card cd-fin-card--pendiente">
+          <span class="cd-fin-label">En espera</span>
+          <span class="cd-fin-value">Bs. {{ totalPendiente() | number: '1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Main grid ─────────────────────────────────────────────────────── -->
+    <div class="cd-grid">
+      <!-- Datos del cliente -->
+      <section class="cd-card cd-card--datos">
+        <h2 class="cd-card-title">
+          <span class="material-symbols-outlined">person</span>Datos del cliente
+        </h2>
+        <dl class="cd-dl">
+          <dt>Teléfono</dt>
+          <dd>{{ c.telefono }}</dd>
+
+          <dt>Email</dt>
+          <dd>{{ c.email ?? '—' }}</dd>
+
+          <dt>Empresa</dt>
+          <dd>{{ c.empresa ?? '—' }}</dd>
+
+          <dt>NIT</dt>
+          <dd>{{ c.nit ?? '—' }}</dd>
+
+          <dt>Dirección</dt>
+          <dd>{{ c.direccion ?? '—' }}</dd>
+
+          <dt>Miembro desde</dt>
+          <dd>{{ c.creadoEn | date: 'd MMM y' : '' : 'es' }}</dd>
+        </dl>
+        @if (c.notas) {
+          <div class="cd-notas">
+            <span class="cd-notas-label">Notas</span>
+            <p class="cd-notas-text">{{ c.notas }}</p>
+          </div>
+        }
+      </section>
+
+      <!-- Historial de cobros -->
+      <section class="cd-card cd-card--pagos">
+        <div class="cd-card-header">
+          <h2 class="cd-card-title">
+            <span class="material-symbols-outlined">receipt_long</span>
+            Historial de cobros
+          </h2>
+          <span class="cd-count-badge">{{ pagos().length }}</span>
+        </div>
+
+        @for (p of pagos(); track p.id) {
+          <a [routerLink]="['/payments', p.id]" class="cd-pago-item">
+            <div class="cd-pago-main">
+              <span class="cd-pago-desc">{{ p.descripcion }}</span>
+              <span class="cd-pago-date">{{ p.creadoEn | date: 'd MMM y' : '' : 'es' }}</span>
+            </div>
+            <div class="cd-pago-right">
+              <span class="cd-pago-monto">Bs. {{ p.monto | number: '1.2-2' }}</span>
+              <span class="cd-pay-badge cd-pay-badge--{{ p.status }}">{{ p.status }}</span>
+            </div>
+          </a>
+        } @empty {
+          <div class="cd-empty">
+            <span class="material-symbols-outlined cd-empty-icon">receipt_long</span>
+            <p>Sin cobros registrados</p>
+          </div>
+        }
+      </section>
+
+      <!-- Conversaciones -->
+      <section class="cd-card cd-card--convs">
+        <div class="cd-card-header">
+          <h2 class="cd-card-title">
+            <span class="material-symbols-outlined">chat</span>
+            Conversaciones
+          </h2>
+          <span class="cd-count-badge">{{ conversaciones().length }}</span>
+        </div>
+
+        @for (conv of conversaciones(); track conv.id) {
+          <a [routerLink]="['/inbox', conv.id]" class="cd-conv-item">
+            <div class="cd-conv-main">
+              <span class="cd-conv-msg">{{ conv.ultimoMensaje }}</span>
+              <span class="cd-conv-date">{{ labelFecha(conv.ultimoMensajeAt) }}</span>
+            </div>
+            <span class="cd-conv-badge cd-conv-badge--{{ conv.status }}">{{ conv.status }}</span>
+          </a>
+        } @empty {
+          <div class="cd-empty">
+            <span class="material-symbols-outlined cd-empty-icon">chat_bubble_outline</span>
+            <p>Sin conversaciones</p>
+          </div>
+        }
+      </section>
+    </div>
   } @else {
-    <p class="not-found">Cliente no encontrado.</p>
+    <div class="cd-not-found">
+      <span class="material-symbols-outlined" style="font-size: 3rem; opacity: 0.4"
+        >person_off</span
+      >
+      <p>Cliente no encontrado.</p>
+      <a routerLink="/clients" class="cd-btn-secondary">Volver a clientes</a>
+    </div>
   }
 </div>
