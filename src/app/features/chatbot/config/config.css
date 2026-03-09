@@ -341,7 +341,7 @@
   padding: 0.125rem 0.5rem;
   border-radius: 9999px;
   background: oklch(65% 0.22 270 / 18%);
-  color: oklch(80% 0.18 270);
+  color: oklch(35% 0.18 270);
   font-family: 'Courier New', monospace;
 }
 
