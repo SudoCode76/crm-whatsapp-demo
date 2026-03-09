@@ -1,65 +1,102 @@
-<div class="page">
-  <header class="page-header">
-    <h1 class="page-title">Bandeja de entrada</h1>
-    <div class="filtros">
-      @for (
-        tab of [
-          ['todas', 'Todas'],
-          ['activa', 'Activas'],
-          ['espera', 'En espera'],
-          ['bot', 'Bot'],
-          ['cerrada', 'Cerradas'],
-        ];
-        track tab[0]
-      ) {
+<div class="inbox-shell">
+  <!-- ── LEFT: conversations list ──────────────────────────────────────── -->
+  <aside class="inbox-list">
+    <!-- List header -->
+    <div class="list-header">
+      <h2 class="list-title">Mensajes</h2>
+      <button class="btn-icon" aria-label="Nueva conversación">
+        <span class="material-symbols-outlined">edit_square</span>
+      </button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <span class="material-symbols-outlined search-icon">search</span>
+      <input
+        class="search-input"
+        type="text"
+        placeholder="Buscar…"
+        [value]="busqueda()"
+        (input)="onBusqueda($event)"
+      />
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs scrollbar-hide">
+      @for (tab of tabs; track tab.key) {
         <button
-          class="filtro-btn"
-          [class.filtro-btn--active]="filtro() === tab[0]"
-          (click)="setFiltro($any(tab[0]))"
+          class="tab-btn"
+          [class.tab-btn--active]="filtro() === tab.key"
+          (click)="setFiltro(tab.key)"
         >
-          {{ tab[1] }}
+          {{ tab.label
+          }}<span class="tab-count" [class]="tab.colorClass">{{ countFor(tab.key) }}</span>
         </button>
       }
     </div>
-  </header>
 
-  <div class="inbox-shell">
-    <!-- LEFT: conversations list -->
-    <aside class="inbox-list">
-      <div class="inbox-list-header">
-        <div class="search-wrap">
-          <span class="material-symbols-outlined">search</span>
-          <input placeholder="Buscar chats, clientes o QRs..." />
-        </div>
-        <button class="btn-new">+ Nuevo</button>
-      </div>
+    <!-- Conversation list -->
+    <ul class="conv-list scrollbar-hide">
+      @for (conv of lista(); track conv.id) {
+        <li>
+          <a
+            [routerLink]="['/inbox', conv.id]"
+            class="conv-item"
+            [class.conv-item--active]="isActive(conv.id)"
+            [class.conv-item--espera]="conv.status === 'espera'"
+          >
+            <!-- Active indicator bar -->
+            @if (isActive(conv.id)) {
+              <span class="conv-active-bar"></span>
+            }
 
-      <ul class="conv-list">
-        @for (conv of lista; track conv.id) {
-          <li>
-            <a [routerLink]="['/inbox', conv.id]" class="conv-item glass">
-              <span class="conv-avatar">{{ conv.clienteNombre[0] }}</span>
-              <div class="conv-info">
+            <!-- Avatar -->
+            <span class="conv-avatar conv-avatar--{{ conv.status }}">
+              {{ conv.clienteNombre[0] }}
+            </span>
+
+            <!-- Info -->
+            <div class="conv-info">
+              <div class="conv-info-top">
                 <span class="conv-name">{{ conv.clienteNombre }}</span>
-                <span class="conv-last">{{ conv.ultimoMensaje }}</span>
+                <span class="conv-time">
+                  {{ conv.ultimoMensajeAt | slice: 11 : 16 }}
+                </span>
               </div>
-              <div class="conv-meta">
-                <span class="conv-status conv-status--{{ conv.status }}">{{ conv.status }}</span>
+              <div class="conv-info-bot">
+                <span class="conv-last">{{ conv.ultimoMensaje }}</span>
                 @if (conv.mensajesNoLeidos > 0) {
                   <span class="conv-badge">{{ conv.mensajesNoLeidos }}</span>
                 }
               </div>
-            </a>
-          </li>
-        } @empty {
-          <li class="empty-state">No hay conversaciones en esta categoría.</li>
-        }
-      </ul>
-    </aside>
+              <!-- Status badge -->
+              <span class="conv-status-badge conv-status-badge--{{ conv.status }}">
+                @switch (conv.status) {
+                  @case ('bot') {
+                    Bot
+                  }
+                  @case ('activa') {
+                    Agente
+                  }
+                  @case ('espera') {
+                    Espera
+                  }
+                  @case ('cerrada') {
+                    Cerrado
+                  }
+                }
+              </span>
+            </div>
+          </a>
+        </li>
+      } @empty {
+        <li class="empty-state">Sin conversaciones</li>
+      }
+    </ul>
+  </aside>
 
-    <!-- RIGHT: panel where the conversation child route will render -->
-    <section class="inbox-panel">
-      <router-outlet />
-    </section>
-  </div>
+  <!-- ── RIGHT: child route renders here ──────────────────────────────── -->
+  <section class="inbox-panel">
+    <router-outlet />
+  </section>
 </div>

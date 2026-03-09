@@ -1,40 +1,126 @@
-<div class="conv-page">
-  @if (conversacion(); as conv) {
-    <header class="conv-header glass">
-      <span class="conv-avatar-lg">{{ conv.clienteNombre[0] }}</span>
-      <div class="conv-contact">
-        <span class="conv-contact-name">{{ conv.clienteNombre }}</span>
-        <span class="conv-contact-phone">{{ conv.clienteTelefono }}</span>
+@if (conversacion(); as conv) {
+  <div class="conv-page">
+    <!-- ── Header ──────────────────────────────────────────────────────── -->
+    <header class="conv-header">
+      <div class="conv-header-left">
+        <div class="conv-avatar-wrap">
+          <span class="conv-avatar-lg conv-avatar-lg--{{ conv.status }}">
+            {{ conv.clienteNombre[0] }}
+          </span>
+          <span class="conv-online-dot conv-online-dot--{{ conv.status }}"></span>
+        </div>
+        <div class="conv-contact">
+          <span class="conv-contact-name">{{ conv.clienteNombre }}</span>
+          <div class="conv-contact-meta">
+            <span class="conv-contact-phone">{{ conv.clienteTelefono }}</span>
+            @if (conv.deudaTotal) {
+              <span class="conv-contact-sep">·</span>
+              <span class="conv-contact-deuda"
+                >Deuda: <strong>Bs. {{ conv.deudaTotal | number: '1.2-2' }}</strong></span
+              >
+            }
+          </div>
+        </div>
       </div>
-      <div class="conv-actions">
-        <button class="action-btn" (click)="mostrarAsignacion.set(true)">Asignar</button>
-        <button class="action-btn action-btn--danger" (click)="cerrar()">Cerrar chat</button>
+
+      <div class="conv-header-right">
+        <span class="badge-attended">
+          <span class="material-symbols-outlined badge-icon">smart_toy</span>
+          Atendido por Bot
+        </span>
+        <button class="btn-take" (click)="tomarConversacion()">
+          <span class="material-symbols-outlined" style="font-size: 16px">support_agent</span>
+          Tomar conversación
+        </button>
+        <button class="btn-more" (click)="mostrarAsignacion.set(true)" aria-label="Más opciones">
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
       </div>
     </header>
 
+    <!-- ── Messages area ───────────────────────────────────────────────── -->
     <div class="messages-area">
+      <!-- Watermark -->
+      <div class="messages-watermark" aria-hidden="true">
+        <span class="material-symbols-outlined">chat</span>
+      </div>
+
+      <!-- Date separator -->
+      <div class="date-separator">
+        <span class="date-separator-label">Hoy</span>
+      </div>
+
       @for (msg of conv.mensajes; track msg.id) {
         <div class="msg-row msg-row--{{ msg.origen }}">
-          <div class="bubble bubble--{{ msg.origen }}">
-            <p class="bubble-text">{{ msg.texto }}</p>
-            <span class="bubble-time">{{ msg.timestamp | date: 'HH:mm' }}</span>
-          </div>
+          @if (msg.origen === 'bot') {
+            <div class="bubble-wrap">
+              <span class="bubble-label">CobraBot</span>
+              <div class="bubble bubble--bot">
+                <p class="bubble-text">{{ msg.texto }}</p>
+                <span class="bubble-time">{{ msg.timestamp | date: 'HH:mm' }}</span>
+              </div>
+            </div>
+          } @else if (msg.origen === 'agente') {
+            <div class="bubble bubble--agente">
+              <p class="bubble-text">{{ msg.texto }}</p>
+              <span class="bubble-time">{{ msg.timestamp | date: 'HH:mm' }}</span>
+            </div>
+          } @else {
+            <div class="bubble bubble--cliente">
+              <p class="bubble-text">{{ msg.texto }}</p>
+              <span class="bubble-time">{{ msg.timestamp | date: 'HH:mm' }}</span>
+            </div>
+          }
         </div>
+      } @empty {
+        <p class="no-messages">Sin mensajes aún.</p>
       }
     </div>
 
-    <footer class="conv-footer glass">
-      <input
-        class="msg-input"
-        type="text"
-        placeholder="Escribe un mensaje…"
-        [value]="nuevoMensaje()"
-        (input)="onInput($event)"
-        (keydown.enter)="enviar()"
-      />
-      <button class="send-btn" (click)="enviar()" aria-label="Enviar">➤</button>
+    <!-- ── Footer ──────────────────────────────────────────────────────── -->
+    <footer class="conv-footer">
+      <div class="footer-readonly-tip">
+        <span class="material-symbols-outlined" style="font-size: 14px">lock</span>
+        Modo lectura — toma la conversación para responder
+      </div>
+      <div class="footer-input-wrap" [class.footer-active]="conv.status === 'activa'">
+        <button
+          class="footer-icon-btn"
+          [attr.disabled]="conv.status !== 'activa' || null"
+          aria-label="Adjuntar"
+        >
+          <span class="material-symbols-outlined">attach_file</span>
+        </button>
+        <button
+          class="footer-icon-btn"
+          [attr.disabled]="conv.status !== 'activa' || null"
+          aria-label="Emoji"
+        >
+          <span class="material-symbols-outlined">sentiment_satisfied</span>
+        </button>
+        <input
+          class="msg-input"
+          type="text"
+          placeholder="Escribe un mensaje…"
+          [value]="nuevoMensaje()"
+          (input)="onInput($event)"
+          (keydown.enter)="enviar()"
+          [attr.disabled]="conv.status !== 'activa' || null"
+        />
+        <button
+          class="send-btn"
+          (click)="enviar()"
+          [attr.disabled]="conv.status !== 'activa' || null"
+          aria-label="Enviar"
+        >
+          <span class="material-symbols-outlined">send</span>
+        </button>
+      </div>
     </footer>
-  } @else {
-    <div class="not-found">Conversación no encontrada.</div>
-  }
-</div>
+  </div>
+} @else {
+  <div class="conv-empty">
+    <span class="material-symbols-outlined conv-empty-icon">forum</span>
+    <p>Selecciona una conversación para empezar</p>
+  </div>
+}

@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, inject, input, signal, computed } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { InboxService } from '../../../core/services/inbox.service';
 import { UsersService } from '../../../core/services/users.service';
 
 @Component({
   selector: 'app-conversacion',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe],
+  imports: [DatePipe, DecimalPipe],
   templateUrl: './conversacion.html',
   styleUrl: './conversacion.css',
 })
@@ -33,6 +33,10 @@ export class Conversacion {
     this.nuevoMensaje.set('');
     // Simula respuesta del cliente tras 2s
     this.inbox.simularRespuestaCliente(this.id(), '¡Entendido, gracias!', 2000);
+  }
+
+  tomarConversacion() {
+    this.inbox.updateStatus(this.id(), 'activa');
   }
 
   cerrar() {

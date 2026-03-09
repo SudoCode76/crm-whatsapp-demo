@@ -12,6 +12,9 @@
   --brand-accent: oklch(72% 0.18 195); /* teal   */
   --surface-dark: oklch(18% 0.02 270);
   --content-max-width: 1280px;
+  /* stronger text tokens for improved contrast */
+  --text-strong: oklch(12% 0.02 270);
+  --text-muted: oklch(65% 0.04 270);
 }
 
 /* ─── Utility Class ───────────────────────────────────────────────────────── */
@@ -186,6 +189,32 @@ app-shell {
 
 .page > :not(.page-header) {
   flex: 0 0 auto;
+}
+
+/* Hide global topbar when body has this class (used for inbox full-bleed layout) */
+body.hide-topbar .topbar {
+  display: none !important;
+}
+
+/* Remove topbar completely since it's been excised from shell.html; keep rule for safety */
+.topbar {
+  display: none !important;
+}
+
+/* Stronger typography overrides for improved legibility over gradients */
+.topbar h2,
+.page-title,
+.conv-contact-name,
+.conv-contact-phone,
+.inbox-list .conv-name,
+.inbox-list .conv-last,
+.bubble-text {
+  color: var(--text-strong) !important;
+}
+.conv-last,
+.conv-contact-phone,
+.bubble-time {
+  color: var(--text-muted) !important;
 }
 
 @media (max-width: 900px) {

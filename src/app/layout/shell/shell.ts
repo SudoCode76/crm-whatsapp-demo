@@ -9,7 +9,7 @@ import {
   OnDestroy,
   Injector,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { InboxService } from '../../core/services/inbox.service';
 import { Sidebar } from './sidebar';
@@ -25,6 +25,7 @@ export class Shell implements OnDestroy {
   private auth = inject(AuthService);
   private inbox = inject(InboxService);
   private injector = inject(Injector);
+  private router = inject(Router);
 
   user = this.auth.currentUser;
   isAdmin = this.auth.isAdmin;
@@ -135,6 +136,33 @@ export class Shell implements OnDestroy {
         },
         { injector: this.injector },
       );
+
+      // Hide topbar on /inbox routes by toggling a class on body. Run inside
+      // afterNextRender to ensure document is available (SSR-safe).
+      const setBodyTopbar = (url: string) => {
+        try {
+          document.body.classList.toggle('hide-topbar', url.startsWith('/inbox'));
+        } catch {
+          /* ignore */
+        }
+      };
+
+      // initial
+      try {
+        setBodyTopbar(this.router.url);
+      } catch {
+        /* ignore */
+      }
+
+      // subscribe to route changes
+      const sub = this.router.events.subscribe((ev) => {
+        if (ev instanceof NavigationEnd) {
+          setBodyTopbar(ev.urlAfterRedirects || ev.url);
+        }
+      });
+
+      // cleanup when component destroyed
+      effect(() => sub.unsubscribe(), { injector: this.injector });
     });
   }
 

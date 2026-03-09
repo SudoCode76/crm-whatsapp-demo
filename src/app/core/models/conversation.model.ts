@@ -17,6 +17,7 @@ export interface Conversation {
   status: ConversationStatus;
   agenteId?: string;
   agenteNombre?: string;
+  deudaTotal?: number;
   ultimoMensaje: string;
   ultimoMensajeAt: string;
   mensajesNoLeidos: number;
