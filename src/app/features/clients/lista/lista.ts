@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DecimalPipe, DatePipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { ClientsService } from '../../../core/services/clients.service';
 import { Client } from '../../../core/models/client.model';
 
@@ -21,7 +21,7 @@ const AVATAR_PALETTES = [
 @Component({
   selector: 'app-lista-clientes',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, DecimalPipe, DatePipe],
+  imports: [RouterLink, DecimalPipe],
   templateUrl: './lista.html',
   styleUrl: './lista.css',
 })
