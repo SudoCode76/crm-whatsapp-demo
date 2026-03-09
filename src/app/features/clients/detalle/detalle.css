@@ -1,4 +1,3 @@
-/* ── Page root ───────────────────────────────────────────────────────────── */
 .cd-page {
   display: flex;
   flex-direction: column;
@@ -7,7 +6,6 @@
   min-height: 0;
 }
 
-/* ── Top bar ─────────────────────────────────────────────────────────────── */
 .cd-topbar {
   display: flex;
   align-items: center;
@@ -15,7 +13,6 @@
   gap: 1rem;
   flex-shrink: 0;
 }
-
 .cd-back {
   display: inline-flex;
   align-items: center;
@@ -32,7 +29,6 @@
 .cd-back .material-symbols-outlined {
   font-size: 18px;
 }
-
 .cd-topbar-actions {
   display: flex;
   align-items: center;
@@ -88,7 +84,6 @@
   font-size: 18px;
 }
 
-/* ── Hero card ───────────────────────────────────────────────────────────── */
 .cd-hero {
   display: flex;
   align-items: flex-start;
@@ -101,8 +96,6 @@
   box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
   flex-shrink: 0;
 }
-
-/* Large avatar */
 .cd-avatar-lg {
   width: 68px;
   height: 68px;
@@ -116,8 +109,6 @@
   font-weight: 700;
   flex-shrink: 0;
 }
-
-/* Avatar gradient backgrounds — same palette as lista */
 .cd-avatar-lg.from-blue-200 {
   background: linear-gradient(135deg, #bfdbfe, #93c5fd);
   color: #1d4ed8;
@@ -151,19 +142,16 @@
   color: #be123c;
 }
 
-/* Hero info */
 .cd-hero-info {
   flex: 1 1 auto;
   min-width: 0;
 }
-
 .cd-hero-name-row {
   display: flex;
   align-items: center;
   gap: 0.625rem;
   flex-wrap: wrap;
 }
-
 .cd-name {
   font-size: 1.375rem;
   font-weight: 700;
@@ -171,20 +159,17 @@
   margin: 0;
   line-height: 1.3;
 }
-
 .cd-empresa {
   font-size: 0.875rem;
   color: #64748b;
   margin: 0.2rem 0 0.625rem;
 }
-
 .cd-hero-meta {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-
 .cd-meta-chip {
   display: inline-flex;
   align-items: center;
@@ -202,14 +187,12 @@
   color: #94a3b8;
 }
 
-/* Finance mini-cards */
 .cd-hero-finance {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   flex-shrink: 0;
 }
-
 .cd-fin-card {
   display: flex;
   flex-direction: column;
@@ -218,7 +201,6 @@
   border-radius: 0.75rem;
   min-width: 148px;
 }
-
 .cd-fin-label {
   font-size: 0.7rem;
   font-weight: 600;
@@ -226,31 +208,26 @@
   letter-spacing: 0.05em;
   opacity: 0.7;
 }
-
 .cd-fin-value {
   font-size: 1rem;
   font-weight: 700;
 }
-
 .cd-fin-card--deuda {
   background: rgba(254, 215, 170, 0.5);
   border: 1px solid rgba(251, 191, 36, 0.4);
   color: #92400e;
 }
-
 .cd-fin-card--pagado {
   background: rgba(209, 250, 229, 0.5);
   border: 1px solid rgba(52, 211, 153, 0.4);
   color: #065f46;
 }
-
 .cd-fin-card--pendiente {
   background: rgba(219, 234, 254, 0.5);
   border: 1px solid rgba(147, 197, 253, 0.4);
   color: #1e40af;
 }
 
-/* ── Badges (hero status) ────────────────────────────────────────────────── */
 .cd-badge {
   display: inline-flex;
   align-items: center;
@@ -274,7 +251,6 @@
 .cd-badge--activo .cd-badge-dot {
   background: #10b981;
 }
-
 .cd-badge--moroso {
   background: rgba(254, 215, 170, 0.8);
   border: 1px solid #fcd34d;
@@ -283,7 +259,6 @@
 .cd-badge--moroso .cd-badge-dot {
   background: #f97316;
 }
-
 .cd-badge--inactivo {
   background: rgba(241, 245, 249, 0.8);
   border: 1px solid #cbd5e1;
@@ -293,15 +268,12 @@
   background: #94a3b8;
 }
 
-/* ── Main grid ───────────────────────────────────────────────────────────── */
 .cd-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
   gap: 1rem;
 }
-
-/* ── Cards ───────────────────────────────────────────────────────────────── */
 .cd-card {
   background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(24px);
@@ -313,28 +285,23 @@
   flex-direction: column;
   gap: 0.875rem;
 }
-
 .cd-card--datos {
   grid-column: 1;
-  grid-row: 1 / 3;
+  grid-row: 1/3;
 }
-
 .cd-card--pagos {
   grid-column: 2;
   grid-row: 1;
 }
-
 .cd-card--convs {
   grid-column: 2;
   grid-row: 2;
 }
-
 .cd-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
 .cd-card-title {
   display: flex;
   align-items: center;
@@ -348,7 +315,6 @@
   font-size: 18px;
   color: #64748b;
 }
-
 .cd-count-badge {
   background: rgba(255, 255, 255, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.7);
@@ -359,7 +325,6 @@
   padding: 0.1rem 0.5rem;
 }
 
-/* ── Definition list ─────────────────────────────────────────────────────── */
 .cd-dl {
   display: grid;
   grid-template-columns: 1fr 1.25fr;
@@ -367,21 +332,17 @@
   column-gap: 0.5rem;
   font-size: 0.8125rem;
 }
-
 .cd-dl dt {
   color: #94a3b8;
   font-weight: 500;
   display: flex;
   align-items: center;
 }
-
 .cd-dl dd {
   margin: 0;
   color: #334155;
   font-weight: 500;
 }
-
-/* Notes */
 .cd-notas {
   padding: 0.75rem;
   background: rgba(255, 255, 255, 0.25);
@@ -404,83 +365,7 @@
   line-height: 1.5;
 }
 
-/* ── Payment items ───────────────────────────────────────────────────────── */
-.cd-pago-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding: 0.625rem 0.75rem;
-  background: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 0.75rem;
-  text-decoration: none;
-  transition:
-    background 0.15s,
-    transform 0.1s;
-}
-.cd-pago-item:hover {
-  background: rgba(255, 255, 255, 0.45);
-  transform: translateX(2px);
-}
-
-.cd-pago-main {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  min-width: 0;
-}
-
-.cd-pago-desc {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: #334155;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
-}
-
-.cd-pago-date {
-  font-size: 0.7rem;
-  color: #94a3b8;
-}
-
-.cd-pago-right {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-shrink: 0;
-}
-
-.cd-pago-monto {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-/* Payment status badges */
-.cd-pay-badge {
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 0.15rem 0.5rem;
-  border-radius: 9999px;
-  white-space: nowrap;
-}
-.cd-pay-badge--pagado {
-  background: rgba(209, 250, 229, 0.8);
-  color: #065f46;
-}
-.cd-pay-badge--pendiente {
-  background: rgba(254, 243, 199, 0.8);
-  color: #92400e;
-}
-.cd-pay-badge--expirado {
-  background: rgba(241, 245, 249, 0.8);
-  color: #475569;
-}
-
-/* ── Conversation items ──────────────────────────────────────────────────── */
+.cd-pago-item,
 .cd-conv-item {
   display: flex;
   align-items: center;
@@ -495,18 +380,19 @@
     background 0.15s,
     transform 0.1s;
 }
+.cd-pago-item:hover,
 .cd-conv-item:hover {
   background: rgba(255, 255, 255, 0.45);
   transform: translateX(2px);
 }
-
+.cd-pago-main,
 .cd-conv-main {
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
   min-width: 0;
 }
-
+.cd-pago-desc,
 .cd-conv-msg {
   font-size: 0.8125rem;
   font-weight: 500;
@@ -514,31 +400,52 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.cd-pago-desc {
+  max-width: 200px;
+}
+.cd-conv-msg {
   max-width: 220px;
 }
-
+.cd-pago-date,
 .cd-conv-date {
   font-size: 0.7rem;
   color: #94a3b8;
 }
+.cd-pago-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+.cd-pago-monto {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1e293b;
+}
 
-/* Conversation status badges */
+.cd-pay-badge,
 .cd-conv-badge {
   font-size: 0.7rem;
   font-weight: 600;
   padding: 0.15rem 0.5rem;
   border-radius: 9999px;
   white-space: nowrap;
+}
+.cd-conv-badge {
   flex-shrink: 0;
 }
+.cd-pay-badge--pagado,
 .cd-conv-badge--activa {
   background: rgba(209, 250, 229, 0.8);
   color: #065f46;
 }
+.cd-pay-badge--pendiente,
 .cd-conv-badge--espera {
   background: rgba(254, 243, 199, 0.8);
   color: #92400e;
 }
+.cd-pay-badge--expirado,
 .cd-conv-badge--cerrada {
   background: rgba(241, 245, 249, 0.8);
   color: #475569;
@@ -548,7 +455,6 @@
   color: #5b21b6;
 }
 
-/* ── Empty state ─────────────────────────────────────────────────────────── */
 .cd-empty {
   display: flex;
   flex-direction: column;
@@ -565,8 +471,6 @@
   font-size: 2rem;
   opacity: 0.4;
 }
-
-/* ── Not found ───────────────────────────────────────────────────────────── */
 .cd-not-found {
   display: flex;
   flex-direction: column;
@@ -580,7 +484,6 @@
   margin: 0;
 }
 
-/* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .cd-hero {
     flex-direction: column;
