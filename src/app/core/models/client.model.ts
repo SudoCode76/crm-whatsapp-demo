@@ -9,4 +9,8 @@ export interface Client {
   notas?: string;
   creadoEn: string;
   activo: boolean;
+  /** Deuda pendiente en Bs. */
+  deudaTotal?: number;
+  /** ISO timestamp de la última interacción (conversación, pago, etc.) */
+  ultimaInteraccion?: string;
 }

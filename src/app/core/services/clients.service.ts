@@ -8,6 +8,8 @@ export class ClientsService {
 
   clients = this._clients.asReadonly();
   activos = computed(() => this._clients().filter((c) => c.activo));
+  morosos = computed(() => this._clients().filter((c) => (c.deudaTotal ?? 0) > 0));
+  deudaTotalSuma = computed(() => this._clients().reduce((sum, c) => sum + (c.deudaTotal ?? 0), 0));
 
   getById(id: string): Client | undefined {
     return this._clients().find((c) => c.id === id);

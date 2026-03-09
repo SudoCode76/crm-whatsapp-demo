@@ -1,39 +1,161 @@
-<div class="page">
-  <header class="page-header">
-    <h1 class="page-title">Clientes</h1>
-    <a routerLink="/clients/new" class="btn-primary">+ Nuevo cliente</a>
+<div class="cl-page">
+  <!-- ── Header ──────────────────────────────────────────────────────────── -->
+  <header class="cl-header">
+    <div class="cl-header-left">
+      <h2 class="cl-title">Gestión de Clientes</h2>
+      <span class="cl-subtitle">{{ totalClientes() }} clientes registrados</span>
+    </div>
+    <div class="cl-header-right">
+      <div class="cl-search-wrap">
+        <span class="material-symbols-outlined cl-search-icon">search</span>
+        <input
+          class="cl-search-input"
+          type="text"
+          placeholder="Buscar clientes..."
+          [value]="busqueda()"
+          (input)="onBusqueda($event)"
+        />
+      </div>
+      <a routerLink="/clients/new" class="cl-btn-new">
+        <span class="material-symbols-outlined">add</span>
+        Nuevo Cliente
+      </a>
+    </div>
   </header>
 
-  <div class="table-wrap glass">
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Teléfono</th>
-          <th>Empresa</th>
-          <th>Estado</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (c of clients(); track c.id) {
-          <tr>
-            <td>{{ c.nombre }}</td>
-            <td>{{ c.telefono }}</td>
-            <td>{{ c.empresa ?? '—' }}</td>
-            <td>
-              <span
-                class="badge"
-                [class.badge--active]="c.activo"
-                [class.badge--inactive]="!c.activo"
-              >
-                {{ c.activo ? 'Activo' : 'Inactivo' }}
-              </span>
-            </td>
-            <td><a [routerLink]="['/clients', c.id]" class="link">Ver</a></td>
+  <!-- ── Stats cards ─────────────────────────────────────────────────────── -->
+  <div class="cl-stats scrollbar-hide">
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--blue">
+        <span class="material-symbols-outlined">groups</span>
+      </div>
+      <div>
+        <p class="stat-label">Total Clientes</p>
+        <p class="stat-value">{{ totalClientes() }}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--green">
+        <span class="material-symbols-outlined">check_circle</span>
+      </div>
+      <div>
+        <p class="stat-label">Activos</p>
+        <p class="stat-value">{{ totalActivos() }}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--orange">
+        <span class="material-symbols-outlined">warning</span>
+      </div>
+      <div>
+        <p class="stat-label">Morosos</p>
+        <p class="stat-value">{{ totalMorosos() }}</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon stat-icon--purple">
+        <span class="material-symbols-outlined">account_balance</span>
+      </div>
+      <div>
+        <p class="stat-label">Deuda Total</p>
+        <p class="stat-value">Bs. {{ deudaTotal() | number: '1.0-0' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Table ───────────────────────────────────────────────────────────── -->
+  <div class="cl-table-wrap">
+    <div class="cl-table-scroll">
+      <table class="cl-table">
+        <thead>
+          <tr class="cl-thead-row">
+            <th class="cl-th cl-th--avatar"></th>
+            <th class="cl-th">Cliente</th>
+            <th class="cl-th">Teléfono</th>
+            <th class="cl-th">Estado</th>
+            <th class="cl-th">Deuda Total</th>
+            <th class="cl-th">Última Interacción</th>
+            <th class="cl-th cl-th--right">Acciones</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (c of clientesPagina(); track c.id) {
+            <tr class="cl-row">
+              <!-- Avatar -->
+              <td class="cl-td">
+                <div [class]="'cl-avatar ' + paletteClasses(c.nombre)[0]">
+                  <span [class]="paletteClasses(c.nombre)[2]">{{ iniciales(c.nombre) }}</span>
+                </div>
+              </td>
+              <!-- Nombre -->
+              <td class="cl-td cl-td--name">
+                <a [routerLink]="['/clients', c.id]" class="cl-name-link">{{ c.nombre }}</a>
+                @if (c.empresa) {
+                  <span class="cl-empresa">{{ c.empresa }}</span>
+                }
+              </td>
+              <!-- Teléfono -->
+              <td class="cl-td cl-td--phone">{{ c.telefono }}</td>
+              <!-- Estado -->
+              <td class="cl-td">
+                @if (!c.activo) {
+                  <span class="cl-badge cl-badge--inactivo">
+                    <span class="cl-badge-dot"></span>Inactivo
+                  </span>
+                } @else if (esMoroso(c)) {
+                  <span class="cl-badge cl-badge--moroso">
+                    <span class="cl-badge-dot"></span>Moroso
+                  </span>
+                } @else {
+                  <span class="cl-badge cl-badge--activo">
+                    <span class="cl-badge-dot"></span>Activo
+                  </span>
+                }
+              </td>
+              <!-- Deuda -->
+              <td class="cl-td cl-td--deuda">Bs. {{ c.deudaTotal ?? 0 | number: '1.2-2' }}</td>
+              <!-- Última interacción -->
+              <td class="cl-td cl-td--fecha">{{ labelFecha(c.ultimaInteraccion) }}</td>
+              <!-- Acciones -->
+              <td class="cl-td cl-td--actions">
+                <div class="cl-actions">
+                  <a
+                    [routerLink]="['/clients', c.id]"
+                    class="cl-action-btn"
+                    aria-label="Ver detalle"
+                  >
+                    <span class="material-symbols-outlined">visibility</span>
+                  </a>
+                  <a
+                    [routerLink]="['/clients', c.id, 'edit']"
+                    class="cl-action-btn"
+                    aria-label="Editar"
+                  >
+                    <span class="material-symbols-outlined">edit</span>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7" class="cl-empty">Sin clientes que coincidan con la búsqueda.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="cl-pagination">
+      <span class="cl-pagination-info">
+        Mostrando {{ inicioMostrado() }} a {{ finMostrado() }} de {{ totalFiltrados() }} clientes
+      </span>
+      <div class="cl-pagination-btns">
+        <button class="cl-pg-btn" (click)="anterior()" [disabled]="pagina() === 0">Anterior</button>
+        <button class="cl-pg-btn" (click)="siguiente()" [disabled]="pagina() >= totalPaginas() - 1">
+          Siguiente
+        </button>
+      </div>
+    </div>
   </div>
 </div>
